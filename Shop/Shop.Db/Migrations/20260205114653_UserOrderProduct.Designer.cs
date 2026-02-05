@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Db;
 
@@ -11,9 +12,11 @@ using Shop.Db;
 namespace Shop.Db.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20260205114653_UserOrderProduct")]
+    partial class UserOrderProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,9 +84,6 @@ namespace Shop.Db.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Expiration")
                         .HasColumnType("datetime2");
 
@@ -103,7 +103,6 @@ namespace Shop.Db.Migrations
                         new
                         {
                             Id = 1,
-                            Count = 10,
                             Expiration = new DateTime(2026, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Гречка",
                             Price = 100m
@@ -111,7 +110,6 @@ namespace Shop.Db.Migrations
                         new
                         {
                             Id = 2,
-                            Count = 20,
                             Expiration = new DateTime(2026, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Молоко",
                             Price = 150m
@@ -119,7 +117,6 @@ namespace Shop.Db.Migrations
                         new
                         {
                             Id = 3,
-                            Count = 15,
                             Expiration = new DateTime(2026, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Мясо",
                             Price = 300m

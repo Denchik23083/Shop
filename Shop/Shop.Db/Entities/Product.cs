@@ -6,8 +6,12 @@
 
         public string Name { get; set; } = string.Empty;
 
-        public int Price { get; set; }
+        public decimal Price { get; set; }
 
-        public DateTime Expiration { get; set; } 
+        public DateTime Expiration { get; set; }
+
+        public int Count { get; set; }
+
+        public List<OrderProduct> OrderProducts { get; set; } = [];
     }
 }

@@ -1,8 +1,22 @@
 ﻿@page "/"
 
-@foreach (var item in Lists)
-{
-    <h1>@item.Name</h1>
-    <p>@item.Price</p>
-    <p>@item.Expiration.ToString("dd/MM/yyyy")</p>
-}
+<div class="products">
+    @foreach (var item in Lists)
+    {
+        <article class="product-card">
+            <div class="product-body">
+              <div class="product-top">
+                <h3 class="product-title">@item.Name</h3>
+                <div class="product-price">@item.Price грн</div>
+              </div>
+              <div class="product-meta">
+                <span class="badge">Срок до: @item.Expiration.ToString("dd/MM/yyyy")</span>
+                <span class="badge badge-muted">В наличии: @item.Count</span>
+              </div>
+            </div>
+            <div class="product-actions">
+              <button class="btn-cart" type="button">В корзину</button>
+            </div>
+        </article>
+    }
+</div>
