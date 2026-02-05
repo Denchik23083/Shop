@@ -1,17 +1,23 @@
-﻿using Shop.Db;
+﻿using Microsoft.AspNetCore.Components;
 using Shop.Db.Entities;
-using Shop.Services;
+using Shop.Services.ProductService;
 
 namespace Shop.Web.Components.Pages
 {
-    public partial class Home(IProductService service) 
+    public partial class Home() 
     {
-        private readonly IProductService _service = service;
+        [Inject] private IProductService Service { get; set; } = null!;
+        
         private IEnumerable<Product> Lists = [];
 
         protected override async Task OnInitializedAsync()
         {
-            Lists = await _service.GetAllProducts();
+            Lists = await Service.GetAllProductsAsync();
+        }
+
+        public async Task InCartAsync(int productId)
+        {
+            await Service.AddToOrderAsync(productId);
         }
     }
 }
