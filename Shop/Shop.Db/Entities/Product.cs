@@ -10,6 +10,8 @@
 
         public DateTime Expiration { get; set; }
 
+        public int Count { get; set; }
+
         public List<OrderProduct> OrderProducts { get; set; } = [];
     }
 }
