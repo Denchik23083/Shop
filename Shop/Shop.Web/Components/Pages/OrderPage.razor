@@ -1,0 +1,107 @@
+﻿@page "/order"
+<div class="cart-page">
+    <header class="cart-header">
+        <h1 class="cart-title">Корзина</h1>
+        <p class="cart-subtitle">Проверь товары перед оплатой</p>
+    </header>
+
+    <section class="cart-card">
+        <div class="cart-table-wrap">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th class="col-name">Товар</th>
+                        <th class="col-stock">На складе</th>
+                        <th class="col-unit">Цена</th>
+                        <th class="col-qty">Кол-во</th>
+                        <th class="col-total">Итого</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td class="col-name">
+                            <div class="product-cell">
+                                <div class="product-name">Гречка</div>
+                                <div class="product-meta">Категория: Крупы</div>
+                            </div>
+                        </td>
+
+                        <td class="col-stock">
+                            <span class="stock-pill">12</span>
+                        </td>
+
+                        <td class="col-unit">
+                            <span class="money">100 грн</span>
+                        </td>
+
+                        <td class="col-qty">
+                            <div class="qty-control">
+                                <input class="qty-input" type="number" min="1" max ="12" value="2" />
+                            </div>
+                            <div class="qty-hint">Доступно: 12</div>
+                        </td>
+
+                        <td class="col-total">
+                            <span class="money money-strong">200 грн</span>
+                            <button class="remove-link" type="button">Удалить</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-name">
+                            <div class="product-cell">
+                                <div class="product-name">Молоко</div>
+                                <div class="product-meta">1 л • 2.5%</div>
+                            </div>
+                        </td>
+
+                        <td class="col-stock"><span class="stock-pill warn">3</span></td>
+                        <td class="col-unit"><span class="money">150 грн</span></td>
+
+                        <td class="col-qty">
+                            <div class="qty-control">
+                                <button class="qty-btn" type="button">−</button>
+                                <input class="qty-input" type="number" min="1" value="1" />
+                                <button class="qty-btn" type="button">+</button>
+                            </div>
+                            <div class="qty-hint">Доступно: 3</div>
+                        </td>
+
+                        <td class="col-total">
+                            <span class="money money-strong">150 грн</span>
+                            <button class="remove-link" type="button">Удалить</button>
+                        </td>
+                    </tr>
+
+                    <!-- empty state (если корзина пустая) -->
+                    <!--
+                    <tr>
+                      <td colspan="5" class="empty-cell">
+                        В корзине пока пусто
+                      </td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="cart-footer">
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Сумма</span>
+                    <span class="summary-value">350 грн</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span class="summary-label">Итого к оплате</span>
+                    <span class="summary-value">350 грн</span>
+                </div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="pay-btn" type="button">Оплатить</button>
+                <div class="pay-hint">Оплата наличными при получении</div>
+            </div>
+        </footer>
+    </section>
+</div>
