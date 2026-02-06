@@ -14,6 +14,10 @@ namespace Shop.Db.EntitiyConfiguration
             builder.Property(_ => _.Price).HasPrecision(18, 2);
             builder.Property(_ => _.Expiration);
 
+            builder.HasOne<Category>()
+                .WithMany(_ => _.Products)
+                .HasForeignKey(_ => _.CategoryId);
+
             builder.HasData(
                 new List<Product>
                 {
@@ -24,6 +28,7 @@ namespace Shop.Db.EntitiyConfiguration
                         Price = 100,
                         Count = 10,
                         Expiration = new DateTime(2026, 2, 12),
+                        CategoryId = 1
                     },
                     new()
                     {
@@ -31,7 +36,8 @@ namespace Shop.Db.EntitiyConfiguration
                         Name = "Молоко",
                         Price = 150,
                         Count = 20,
-                        Expiration = new DateTime(2026, 2, 6)
+                        Expiration = new DateTime(2026, 2, 6),
+                        CategoryId = 5,
                     },
                     new()
                     {
@@ -39,7 +45,8 @@ namespace Shop.Db.EntitiyConfiguration
                         Name = "Мясо",
                         Price = 300,
                         Count = 15,
-                        Expiration = new DateTime(2026, 2, 8)
+                        Expiration = new DateTime(2026, 2, 8),
+                        CategoryId = 6
                     }
                 });
         }

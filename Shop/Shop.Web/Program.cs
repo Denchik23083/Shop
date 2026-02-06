@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Db;
 using Shop.Services.OrderService;
 using Shop.Services.ProductService;
+using Shop.Services.CategoryService;
 using Shop.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddDbContext<ShopContext>(options =>

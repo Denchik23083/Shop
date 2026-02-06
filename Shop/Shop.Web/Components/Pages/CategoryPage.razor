@@ -1,0 +1,11 @@
+﻿@page "/category"
+
+<div class="categories">
+    @foreach (var item in Lists)
+    {
+        <a class="category-card" href="@($"/category/{item.Id}")">
+            <div class="category-title">@item.Name</div>
+            <div class="category-hint">Нажми, чтобы открыть товары</div>
+        </a>
+    }
+</div>

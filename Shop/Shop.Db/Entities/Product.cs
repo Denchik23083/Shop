@@ -12,6 +12,8 @@
 
         public int Count { get; set; }
 
+        public int CategoryId { get; set; }
+
         public List<OrderProduct> OrderProducts { get; set; } = [];
     }
 }
