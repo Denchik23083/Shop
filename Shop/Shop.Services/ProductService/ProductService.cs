@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shop.Db;
 using Shop.Db.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Shop.Services.ProductService
 {
@@ -15,15 +16,20 @@ namespace Shop.Services.ProductService
                 .ToListAsync();
         }
 
-        public async Task AddToOrderAsync(int productId)
+        public async Task<bool> AddToOrderAsync(int productId)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
                 var product = await _context.Products
-                    .FirstOrDefaultAsync(_ => _.Id == productId)
-                    ?? throw new InvalidOperationException("Product not found"); ;
+                    .FirstOrDefaultAsync(_ => _.Id == productId);
+
+                if (product is null)
+                {
+                    await transaction.RollbackAsync();
+                    return false;
+                }
 
                 //TODO: Костыль. В дальнейшем изменить на cookies. На данный 
                 //момент у нас 1 user с id = 1.
@@ -31,9 +37,14 @@ namespace Shop.Services.ProductService
                 var userId = 1;
 
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(_ => _.Id == userId) 
-                    ?? throw new InvalidOperationException("User not found");
-                
+                    .FirstOrDefaultAsync(_ => _.Id == userId);
+
+                if (user is null)
+                {
+                    await transaction.RollbackAsync();
+                    return false;
+                }
+
                 var order = await _context.Orders
                     .Include(_ => _.OrderProducts)
                     .FirstOrDefaultAsync(_ => _.UserId == user.Id);
@@ -69,11 +80,13 @@ namespace Shop.Services.ProductService
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
+
+                return true;
             }
             catch
             {
                 await transaction.RollbackAsync();
-                throw;
+                return false;
             }
         }
     }

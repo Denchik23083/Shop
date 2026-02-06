@@ -116,3 +116,11 @@
     box-shadow: 0 10px 30px rgba(0,0,0,.18);
     z-index: 1000;
 }
+
+.cart-message.success {
+    background: #16a34a;
+}
+
+.cart-message.error {
+    background: #dc2626;
+}
