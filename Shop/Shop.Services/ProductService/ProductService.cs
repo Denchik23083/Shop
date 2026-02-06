@@ -17,60 +17,64 @@ namespace Shop.Services.ProductService
 
         public async Task AddToOrderAsync(int productId)
         {
-            var product = await _context.Products
-                .FirstOrDefaultAsync(_ => _.Id == productId);
+            using var transaction = await _context.Database.BeginTransactionAsync();
 
-            if (product is null)
+            try
             {
-                return;
-            }
+                var product = await _context.Products
+                    .FirstOrDefaultAsync(_ => _.Id == productId)
+                    ?? throw new InvalidOperationException("Product not found"); ;
 
-            //TODO: Костыль. В дальнейшем изменить на cookies. На данный 
-            //момент у нас 1 user с id = 1.
+                //TODO: Костыль. В дальнейшем изменить на cookies. На данный 
+                //момент у нас 1 user с id = 1.
 
-            var userId = 1;
+                var userId = 1;
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(_ => _.Id == userId);
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(_ => _.Id == userId) 
+                    ?? throw new InvalidOperationException("User not found");
+                
+                var order = await _context.Orders
+                    .Include(_ => _.OrderProducts)
+                    .FirstOrDefaultAsync(_ => _.UserId == user.Id);
 
-            //TODO: Костыль 2. В дальнейшем изменить orderId. На данный 
-            //момент у нас 1 order с id = 1. 
-            var orderId = 1;
-
-            var order = await _context.Orders
-                .Include(_ => _.OrderProducts)
-                .FirstOrDefaultAsync(_ => _.Id == orderId);
-
-            if (order is null)
-            {
-                order = new()
+                if (order is null)
                 {
-                    CreatedAt = DateTime.UtcNow,
-                    UserId = user!.Id,
-                };
+                    order = new()
+                    {
+                        CreatedAt = DateTime.UtcNow,
+                        UserId = user.Id,
+                    };
 
-                await _context.AddAsync(order);
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+                }
+
+                var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+
+                if (orderProduct is null)
+                {
+                    order.OrderProducts.Add(new OrderProduct
+                    {
+                        ProductId = product.Id,
+                        OrderId = order.Id,
+                        UnitPrice = product.Price,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    orderProduct.Quantity++;
+                }
+
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
-
-            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
-
-            if (orderProduct is null)
+            catch
             {
-                order.OrderProducts.Add(new OrderProduct
-                {
-                    ProductId = product.Id,
-                    OrderId = order.Id,
-                    UnitPrice = product.Price,
-                    Quantity = 1
-                });
+                await transaction.RollbackAsync();
+                throw;
             }
-            else
-            {
-                orderProduct.Quantity++;
-            }
-
-            await _context.SaveChangesAsync();
         }
     }
 }
