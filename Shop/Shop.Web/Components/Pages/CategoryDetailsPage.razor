@@ -1,0 +1,18 @@
+﻿@page "/category/{CategoryId:int}"
+
+@if (Category is null)
+{
+    <div class="category-header">
+        <a class="back-link" href="/category">← Все категории</a>
+        <p class="category-not-found">Категория не найдена</p>
+    </div>
+}
+else
+{
+    <div class="category-header">
+        <a class="back-link" href="/category">← Все категории</a>
+        <h2 class="category-name">@Category.Name</h2>
+    </div>
+
+    <ProductsComponent Lists="@Category.Products" />
+}

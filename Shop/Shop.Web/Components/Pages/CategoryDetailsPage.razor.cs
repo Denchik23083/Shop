@@ -4,15 +4,17 @@ using Shop.Services.CategoryService;
 
 namespace Shop.Web.Components.Pages
 {
-    public partial class CategoryPage
+    public partial class CategoryDetailsPage
     {
+        [Parameter] public int CategoryId { get; set; }
+
         [Inject] public ICategoryService Service { get; set; } = null!;
 
-        private IEnumerable<Category> Lists = [];
+        private Category? Category { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Lists = await Service.GetAllCategoriesAsync();
+            Category = await Service.GetCategory(CategoryId);
         }
     }
 }

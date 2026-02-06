@@ -181,3 +181,9 @@
     font-size: 22px;
     font-weight: 900;
 }
+
+.category-not-found {
+    margin: 24px 12px;
+    font-size: 16px;
+    color: rgba(0,0,0,.6);
+}
