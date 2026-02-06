@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Shop.Services\Shop.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\PagesComponents\" />
+  </ItemGroup>
+
 </Project>

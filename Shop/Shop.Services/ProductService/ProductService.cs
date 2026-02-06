@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shop.Db;
 using Shop.Db.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Shop.Services.ProductService
 {
@@ -15,62 +16,78 @@ namespace Shop.Services.ProductService
                 .ToListAsync();
         }
 
-        public async Task AddToOrderAsync(int productId)
+        public async Task<bool> AddToOrderAsync(int productId)
         {
-            var product = await _context.Products
-                .FirstOrDefaultAsync(_ => _.Id == productId);
+            using var transaction = await _context.Database.BeginTransactionAsync();
 
-            if (product is null)
+            try
             {
-                return;
-            }
+                var product = await _context.Products
+                    .FirstOrDefaultAsync(_ => _.Id == productId);
 
-            //TODO: Костыль. В дальнейшем изменить на cookies. На данный 
-            //момент у нас 1 user с id = 1.
-
-            var userId = 1;
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(_ => _.Id == userId);
-
-            //TODO: Костыль 2. В дальнейшем изменить orderId. На данный 
-            //момент у нас 1 order с id = 1. 
-            var orderId = 1;
-
-            var order = await _context.Orders
-                .Include(_ => _.OrderProducts)
-                .FirstOrDefaultAsync(_ => _.Id == orderId);
-
-            if (order is null)
-            {
-                order = new()
+                if (product is null)
                 {
-                    CreatedAt = DateTime.UtcNow,
-                    UserId = user!.Id,
-                };
+                    await transaction.RollbackAsync();
+                    return false;
+                }
 
-                await _context.AddAsync(order);
+                //TODO: Костыль. В дальнейшем изменить на cookies. На данный 
+                //момент у нас 1 user с id = 1.
+
+                var userId = 1;
+
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(_ => _.Id == userId);
+
+                if (user is null)
+                {
+                    await transaction.RollbackAsync();
+                    return false;
+                }
+
+                var order = await _context.Orders
+                    .Include(_ => _.OrderProducts)
+                    .FirstOrDefaultAsync(_ => _.UserId == user.Id);
+
+                if (order is null)
+                {
+                    order = new()
+                    {
+                        CreatedAt = DateTime.UtcNow,
+                        UserId = user.Id,
+                    };
+
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+                }
+
+                var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+
+                if (orderProduct is null)
+                {
+                    order.OrderProducts.Add(new OrderProduct
+                    {
+                        ProductId = product.Id,
+                        OrderId = order.Id,
+                        UnitPrice = product.Price,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    orderProduct.Quantity++;
+                }
+
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return true;
             }
-
-            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
-
-            if (orderProduct is null)
+            catch
             {
-                order.OrderProducts.Add(new OrderProduct
-                {
-                    ProductId = product.Id,
-                    OrderId = order.Id,
-                    UnitPrice = product.Price,
-                    Quantity = 1
-                });
+                await transaction.RollbackAsync();
+                return false;
             }
-            else
-            {
-                orderProduct.Quantity++;
-            }
-
-            await _context.SaveChangesAsync();
         }
     }
 }
