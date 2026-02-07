@@ -1,18 +1,22 @@
 ﻿@page "/category/{CategoryId:int}"
 
-@if (Category is null)
-{
-    <div class="category-header">
-        <a class="back-link" href="/category">← Все категории</a>
-        <p class="category-not-found">Категория не найдена</p>
-    </div>
-}
-else
-{
-    <div class="category-header">
-        <a class="back-link" href="/category">← Все категории</a>
-        <h2 class="category-name">@Category.Name</h2>
-    </div>
+<div class="category-header">
+    <a class="back-link" href="/category">← Все категории</a>
 
+    @if (_isLoading)
+    {
+        <p class="category-loading">Загрузка...</p>
+    }
+    else if (Category is null)
+    {
+        <p class="category-not-found">Категория не найдена</p>
+    }
+    else
+    {
+        <h2 class="category-name">@Category.Name</h2>
+    }
+</div>
+@if (!_isLoading && Category is not null)
+{
     <ProductsComponent Lists="@Category.Products" />
 }

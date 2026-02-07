@@ -14,7 +14,7 @@ namespace Shop.Db.EntitiyConfiguration
             builder.Property(_ => _.Price).HasPrecision(18, 2);
             builder.Property(_ => _.Expiration);
 
-            builder.HasOne<Category>()
+            builder.HasOne(_ => _.Category)
                 .WithMany(_ => _.Products)
                 .HasForeignKey(_ => _.CategoryId);
 

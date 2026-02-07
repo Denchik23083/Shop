@@ -13,7 +13,7 @@ namespace Shop.Db.EntitiyConfiguration
             builder.Property(_ => _.Quantity);
             builder.Property(_ => _.UnitPrice).HasPrecision(18, 2);
 
-            builder.HasOne<Product>()
+            builder.HasOne(_ => _.Product)
                 .WithMany(_ => _.OrderProducts)
                 .HasForeignKey(_ => _.ProductId);
 

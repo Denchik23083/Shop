@@ -11,10 +11,11 @@ namespace Shop.Db.EntitiyConfiguration
             builder.HasKey(_ => _.Id);
 
             builder.Property(_ => _.CreatedAt);
+            builder.HasIndex(o => o.UserId).IsUnique();
 
             builder.HasOne<User>()
-                .WithMany(_ => _.Orders)
-                .HasForeignKey(_ => _.UserId);
+                .WithOne(_ => _.Order)
+                .HasForeignKey<Order>(_ => _.UserId);
         }
     }
 }
