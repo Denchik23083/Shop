@@ -43,8 +43,6 @@ namespace Shop.Web.Components.Pages
                 _isShowPayMessage = false;
                 StateHasChanged();
 
-                await Task.Delay(1500);
-
                 NavigationManager.NavigateTo("/");
             }
             else 

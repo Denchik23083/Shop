@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shop.Db;
 using Shop.Db.Entities;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Shop.Services.ProductService
 {
@@ -11,9 +10,7 @@ namespace Shop.Services.ProductService
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products
-                .AsNoTracking()
-                .ToListAsync();
+            return await _context.Products.AsNoTracking().ToListAsync();
         }
 
         public async Task<bool> AddProductToOrderAsync(int productId)

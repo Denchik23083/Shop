@@ -83,14 +83,26 @@ namespace Shop.Services.OrderService
                 var user = await _context.Users
                     .Include(_ => _.Order)
                     .ThenInclude(_ => _!.OrderProducts)
+                    .ThenInclude(_ => _.Product)
                     .FirstOrDefaultAsync(_ => _.Id == userId);
 
                 if (user is null || user.Order is null 
                     || user.Order.OrderProducts.Count == 0)
                 {
                     return false;
-                }                    
+                }
 
+                foreach (var orderProduct in user.Order.OrderProducts)
+                {
+                    if (orderProduct.Product is null
+                        || orderProduct.Quantity <= 0
+                        || orderProduct.Product.Count < orderProduct.Quantity)
+                    {
+                        return false;
+                    }
+                }
+
+                //Конечная сума
                 var total = user.Order.OrderProducts.Sum(x => x.UnitPrice * x.Quantity);
 
                 if (total <= 0 || user.Money < total)
@@ -98,8 +110,16 @@ namespace Shop.Services.OrderService
                     return false;
                 }
 
+                //Списываем со счета
                 user.Money -= total;
 
+                //Списываем товары со склада
+                foreach (var orderProduct in user.Order.OrderProducts)
+                {
+                    orderProduct.Product!.Count -= orderProduct.Quantity;
+                }
+
+                //Удаляем заказ
                 _context.Orders.Remove(user.Order);
 
                 await _context.SaveChangesAsync();

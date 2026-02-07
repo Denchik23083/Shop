@@ -10,9 +10,7 @@ namespace Shop.Services.CategoryService
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
-            return await _context.Categories
-                .AsNoTracking()
-                .ToListAsync();
+            return await _context.Categories.AsNoTracking().ToListAsync();
         }
 
         public async Task<Category?> GetCategory(int id)
