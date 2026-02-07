@@ -6,7 +6,7 @@ namespace Shop.Web.Components.Pages
 {
     public partial class CategoryPage
     {
-        [Inject] private ICategoryService Service { get; set; } = null!;
+        [Inject] public ICategoryService Service { get; set; } = null!;
 
         private IEnumerable<Category> Lists = [];
 

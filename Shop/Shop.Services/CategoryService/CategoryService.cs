@@ -11,9 +11,15 @@ namespace Shop.Services.CategoryService
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _context.Categories
-                .Include(_ => _.Products)
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<Category?> GetCategory(int id)
+        {
+            return await _context.Categories
+                .Include(_ => _.Products)
+                .FirstOrDefaultAsync(_ => _.Id == id);
         }
     }
 }

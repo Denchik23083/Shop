@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Db;
 
@@ -11,9 +12,11 @@ using Shop.Db;
 namespace Shop.Db.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20260206201101_OneToOneUserOrder")]
+    partial class OneToOneUserOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,13 +249,11 @@ namespace Shop.Db.Migrations
 
             modelBuilder.Entity("Shop.Db.Entities.Product", b =>
                 {
-                    b.HasOne("Shop.Db.Entities.Category", "Category")
+                    b.HasOne("Shop.Db.Entities.Category", null)
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Shop.Db.Entities.Category", b =>

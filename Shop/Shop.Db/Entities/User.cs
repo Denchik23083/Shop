@@ -12,6 +12,6 @@
 
         public decimal Money { get; set; }
 
-        public List<Order> Orders { get; set; } = [];
+        public Order? Order { get; set; }
     }
 }
