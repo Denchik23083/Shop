@@ -57,16 +57,19 @@
 
                                         <td class="col-qty">
                                             <div class="qty-control">
-                                                <button class="qty-btn" type="button" aria-label="Уменьшить">−</button>
+                                                <button class="qty-btn" type="button" aria-label="Уменьшить"
+                                                    @onclick="() => DecreaseQuantityAsync(item.Product.Id)">−</button>
                                                 <span class="qty-value">@item.Quantity</span>
-                                                <button class="qty-btn" type="button" aria-label="Увеличить">+</button>
+                                                <button class="qty-btn" type="button" aria-label="Увеличить"
+                                                    @onclick="() => IncreaseQuantityAsync(item.Product.Id)">+</button>
                                             </div>
                                             <div class="qty-hint">Доступно: @item.Product.Count</div>
                                         </td>
 
                                         <td class="col-total">
                                             <span class="money money-strong">@(item.UnitPrice* item.Quantity) грн</span>
-                                            <button class="remove-link" type="button">Удалить</button>
+                                            <button class="remove-link" type="button"
+                                                    @onclick="() => RemoveProductFromOrderAsync(item.Product.Id)">Удалить </button>
                                         </td>
                                     </tr>
                                 }
@@ -94,5 +97,10 @@
                 </footer>
             </section>
         </div>
+
+        @if (_isShowMessage)
+        {
+            <div class="cart-message error">@_messageText</div>
+        }
     }
 }

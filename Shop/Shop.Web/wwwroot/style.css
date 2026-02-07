@@ -299,13 +299,13 @@
     padding: 0;
     border: 0;
     background: transparent;
-    color: rgba(0,0,0,.65);
+    color: red;
     cursor: pointer;
     font-weight: 700;
     text-decoration: underline;
 }
 .remove-link:hover {
-    color: rgba(0,0,0,.85);
+    color: crimson;
 }
 .empty-cell {
     text-align: center;

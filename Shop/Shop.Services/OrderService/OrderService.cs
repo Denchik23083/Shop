@@ -16,5 +16,62 @@ namespace Shop.Services.OrderService
                 .ThenInclude(_ => _!.Category)
                 .FirstOrDefaultAsync(_ => _.UserId == userId);
         }
+
+        public async Task<bool> IncreaseQuantityAsync(int productId, Order order)
+        {
+            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+
+            if (orderProduct is null || orderProduct.Product is null)
+            {
+                return false;
+            }
+
+            if (orderProduct.Quantity >= orderProduct.Product.Count)
+            {
+                return false;
+            }
+
+            orderProduct.Quantity++;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DecreaseQuantityAsync(int productId, Order order)
+        {
+            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+
+            if (orderProduct is null || orderProduct.Product is null)
+            {
+                return false;
+            }
+
+            if (orderProduct.Quantity <= 1)
+            {
+                return false;
+            }
+
+            orderProduct.Quantity--;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RemoveProductFromOrderAsync(int productId, Order order)
+        {
+            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+
+            if (orderProduct is null || orderProduct.Product is null)
+            {
+                return false;
+            }
+
+            _context.OrderProducts.Remove(orderProduct);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
