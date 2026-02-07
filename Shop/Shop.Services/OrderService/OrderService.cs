@@ -73,5 +73,45 @@ namespace Shop.Services.OrderService
 
             return true;
         }
+
+        public async Task<bool> PayAsync(int userId)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var user = await _context.Users
+                    .Include(_ => _.Order)
+                    .ThenInclude(_ => _!.OrderProducts)
+                    .FirstOrDefaultAsync(_ => _.Id == userId);
+
+                if (user is null || user.Order is null 
+                    || user.Order.OrderProducts.Count == 0)
+                {
+                    return false;
+                }                    
+
+                var total = user.Order.OrderProducts.Sum(x => x.UnitPrice * x.Quantity);
+
+                if (total <= 0 || user.Money < total)
+                {
+                    return false;
+                }
+
+                user.Money -= total;
+
+                _context.Orders.Remove(user.Order);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                return false;
+            }            
+        }
     }
 }

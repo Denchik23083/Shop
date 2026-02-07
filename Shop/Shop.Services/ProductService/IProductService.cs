@@ -6,6 +6,6 @@ namespace Shop.Services.ProductService
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
-        Task<bool> AddToOrderAsync(int productId);
+        Task<bool> AddProductToOrderAsync(int productId);
     }
 }

@@ -11,5 +11,7 @@ namespace Shop.Services.OrderService
         Task<bool> DecreaseQuantityAsync(int productId, Order order);
 
         Task<bool> RemoveProductFromOrderAsync(int productId, Order order);
+    
+        Task<bool> PayAsync(int userId);
     }
 }

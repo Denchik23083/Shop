@@ -6,11 +6,14 @@ namespace Shop.Web.Components.Pages
 {
     public partial class OrderPage
     {
-        private bool _isShowMessage;
-
         [Inject] public IOrderService Service { get; set; } = null!;
 
+        [Inject] public NavigationManager NavigationManager { get; set; } = null!;
+
         private Order? Order { get; set; }
+
+        private bool _isShowMessage;
+        private bool _isShowPayMessage;
 
         private decimal Total => Order?.OrderProducts
             .Sum(x => x.UnitPrice * x.Quantity) ?? 0m;
@@ -21,6 +24,34 @@ namespace Shop.Web.Components.Pages
         {
             //TODO: by UserId
             Order = await Service.GetOrder(1);
+        }
+
+        private async Task PayAsync()
+        {
+            //TODO: by UserId
+            var result = await Service.PayAsync(1);
+
+            if (result)
+            {
+                _messageText = "Заказ оплачен";
+
+                _isShowPayMessage = true;
+                StateHasChanged();
+
+                await Task.Delay(1500);
+
+                _isShowPayMessage = false;
+                StateHasChanged();
+
+                await Task.Delay(1500);
+
+                NavigationManager.NavigateTo("/");
+            }
+            else 
+            {
+                _messageText = "Не удалось оплатить";
+                await ShowMessageAsync();
+            }
         }
 
         private async Task RemoveProductFromOrderAsync(int productId)

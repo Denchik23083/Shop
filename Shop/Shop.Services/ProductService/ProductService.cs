@@ -16,7 +16,7 @@ namespace Shop.Services.ProductService
                 .ToListAsync();
         }
 
-        public async Task<bool> AddToOrderAsync(int productId)
+        public async Task<bool> AddProductToOrderAsync(int productId)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
 
@@ -27,7 +27,6 @@ namespace Shop.Services.ProductService
 
                 if (product is null)
                 {
-                    await transaction.RollbackAsync();
                     return false;
                 }
 
@@ -41,7 +40,6 @@ namespace Shop.Services.ProductService
 
                 if (user is null)
                 {
-                    await transaction.RollbackAsync();
                     return false;
                 }
 
@@ -75,6 +73,11 @@ namespace Shop.Services.ProductService
                 }
                 else
                 {
+                    if (orderProduct.Quantity >= product.Count)
+                    {
+                        return false;
+                    }
+
                     orderProduct.Quantity++;
                 }
 

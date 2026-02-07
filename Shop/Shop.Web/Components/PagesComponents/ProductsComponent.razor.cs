@@ -22,7 +22,7 @@ namespace Shop.Web.Components.PagesComponents
 
             try
             {
-                var result = await Service.AddToOrderAsync(productId);
+                var result = await Service.AddProductToOrderAsync(productId);
 
                 await Task.Delay(1000);
 
@@ -32,7 +32,7 @@ namespace Shop.Web.Components.PagesComponents
                 _isSuccess = result;
                 _messageText = result
                     ? "Товар добавлен в корзину"
-                    : "Не удалось добавить товар";
+                    : "Достигнут максимум";
 
                 _isShowMessage = true;
                 StateHasChanged();
