@@ -1,25 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shop.Db;
+﻿using Shop.Data.CategoryRepository;
 using Shop.Db.Entities;
 
 namespace Shop.Services.CategoryService
 {
-    public class CategoryService(ShopContext context) : ICategoryService
+    public class CategoryService(ICategoryRepository repository) : ICategoryService
     {
-        private readonly ShopContext _context = context;
+        private readonly ICategoryRepository _repository = repository;
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
-            return await _context.Categories
-                .AsNoTracking()
-                .ToListAsync();
+            return await _repository.GetAllCategoriesAsync();
         }
 
-        public async Task<Category?> GetCategory(int id)
+        public async Task<Category?> GetCategoryAsync(int id)
         {
-            return await _context.Categories
-                .Include(_ => _.Products)
-                .FirstOrDefaultAsync(_ => _.Id == id);
+            return await _repository.GetCategory(id);
         }
     }
 }

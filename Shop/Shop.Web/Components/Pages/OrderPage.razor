@@ -91,7 +91,8 @@
                     </div>
 
                     <div class="cart-actions">
-                        <button class="pay-btn" type="button">Оплатить</button>
+                        <button class="pay-btn" type="button"
+                            @onclick="PayAsync">Оплатить</button>
                         <div class="pay-hint">Оплата наличными при получении</div>
                     </div>
                 </footer>
@@ -101,6 +102,11 @@
         @if (_isShowMessage)
         {
             <div class="cart-message error">@_messageText</div>
+        }
+
+        @if (_isShowPayMessage)
+        {
+            <div class="cart-message success">@_messageText</div>
         }
     }
 }

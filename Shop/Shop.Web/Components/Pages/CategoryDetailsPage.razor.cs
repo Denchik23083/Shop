@@ -18,7 +18,7 @@ namespace Shop.Web.Components.Pages
             _isLoading = true;
             StateHasChanged();
 
-            Category = await Service.GetCategory(CategoryId);
+            Category = await Service.GetCategoryAsync(CategoryId);
 
             await Task.Delay(1000);
 

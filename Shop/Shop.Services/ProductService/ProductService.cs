@@ -1,33 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shop.Db;
+﻿using Shop.Data.OrderRepository;
+using Shop.Data.ProductRepository;
+using Shop.Data.UserRepository;
 using Shop.Db.Entities;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Shop.Services.ProductService
 {
-    public class ProductService(ShopContext context) : IProductService
+    public class ProductService(IProductRepository repository, 
+            IOrderRepository orderRepository,
+            IUserRepository userRepository) : IProductService
     {
-        private readonly ShopContext _context = context;
+        private readonly IProductRepository _repository = repository;
+        private readonly IOrderRepository _orderRepository = orderRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products
-                .AsNoTracking()
-                .ToListAsync();
+            return await _repository.GetAllProductsAsync();
         }
 
-        public async Task<bool> AddToOrderAsync(int productId)
+        public async Task<bool> AddProductToOrderAsync(int productId)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            using var transaction = await _repository.BeginTransactionAsync();
 
             try
             {
-                var product = await _context.Products
-                    .FirstOrDefaultAsync(_ => _.Id == productId);
+                var product = await _repository.GetProductAsync(productId);
 
                 if (product is null)
                 {
-                    await transaction.RollbackAsync();
                     return false;
                 }
 
@@ -36,49 +36,46 @@ namespace Shop.Services.ProductService
 
                 var userId = 1;
 
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(_ => _.Id == userId);
+                var user = await _userRepository.GetUser(userId);
 
                 if (user is null)
                 {
-                    await transaction.RollbackAsync();
                     return false;
                 }
 
-                var order = await _context.Orders
-                    .Include(_ => _.OrderProducts)
-                    .FirstOrDefaultAsync(_ => _.UserId == user.Id);
-
-                if (order is null)
+                if (user.Order is null)
                 {
-                    order = new()
+                    user.Order = new()
                     {
                         CreatedAt = DateTime.UtcNow,
-                        UserId = user.Id,
                     };
 
-                    _context.Orders.Add(order);
-                    await _context.SaveChangesAsync();
+                    await _orderRepository.AddOrderAsync(user.Order);
                 }
 
-                var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+                var orderProduct = user.Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
 
                 if (orderProduct is null)
                 {
-                    order.OrderProducts.Add(new OrderProduct
+                    user.Order.OrderProducts.Add(new OrderProduct
                     {
                         ProductId = product.Id,
-                        OrderId = order.Id,
+                        OrderId = user.Order.Id,
                         UnitPrice = product.Price,
                         Quantity = 1
                     });
                 }
                 else
                 {
+                    if (orderProduct.Quantity >= product.Count)
+                    {
+                        return false;
+                    }
+
                     orderProduct.Quantity++;
                 }
 
-                await _context.SaveChangesAsync();
+                await _repository.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return true;
