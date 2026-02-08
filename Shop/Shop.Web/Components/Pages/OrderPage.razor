@@ -101,12 +101,9 @@
 
         @if (_isShowMessage)
         {
-            <div class="cart-message error">@_messageText</div>
-        }
-
-        @if (_isShowPayMessage)
-        {
-            <div class="cart-message success">@_messageText</div>
+            <div class="cart-message @( _isSuccess ? "success" : "error" )">
+                @_messageText
+            </div>
         }
     }
 }

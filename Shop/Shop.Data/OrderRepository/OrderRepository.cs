@@ -9,9 +9,9 @@ namespace Shop.Data.OrderRepository
     {
         private readonly ShopContext _context = context;
 
-        public Task<IDbContextTransaction> BeginTransactionAsync()
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            return _context.Database.BeginTransactionAsync();
+            return await _context.Database.BeginTransactionAsync();
         }
 
         public async Task<Order?> GetOrderAsync(int userId)

@@ -1,0 +1,68 @@
+﻿@page "/register"
+
+<div class="auth-page">
+    <div class="auth-card">
+        <header class="auth-header">
+            <h1 class="auth-title">Регистрация</h1>
+            <p class="auth-subtitle">Создай аккаунт — и можно собирать корзину</p>
+        </header>
+
+        <EditForm Model="RegisterModel" OnValidSubmit="@Register" class="auth-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <label class="auth-field">
+                <span class="auth-label">Имя</span>
+                <InputText 
+                    class="auth-input" 
+                    type="text" 
+                    placeholder="Денис" 
+                    autocomplete="name" 
+                    id="name"
+                    @bind-Value="RegisterModel.Name" />
+            </label>
+            <label class="auth-field">
+                <span class="auth-label">Email</span>
+                <InputText
+                    class="auth-input" 
+                    type="email" 
+                    placeholder="name@example.com" 
+                    autocomplete="email" 
+                    id="email" 
+                    @bind-Value="RegisterModel.Email" />
+            </label>
+            <label class="auth-field">
+                <span class="auth-label">Пароль</span>
+                <InputText 
+                    class="auth-input" 
+                    type="password"
+                    placeholder="••••••••" 
+                    autocomplete="new-password" 
+                    id="password"
+                    @bind-Value="RegisterModel.Password" />
+            </label>
+            <label class="auth-field">
+                <span class="auth-label">Повтори пароль</span>
+                <InputText 
+                    class="auth-input" 
+                    type="password" 
+                    placeholder="••••••••" 
+                    autocomplete="new-password"
+                    id="confirmpassword"
+                    @bind-Value="RegisterModel.ConfirmPassword" />
+            </label>
+
+            <button class="auth-btn" type="submit">Создать аккаунт</button>
+
+            <div class="auth-hint">
+                Уже есть аккаунт? <a class="auth-link" href="/login">Войти</a>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@if (_isShowMessage)
+{
+    <div class="cart-message @( _isSuccess ? "success" : "error" )">
+        @_messageText
+    </div>
+}

@@ -381,3 +381,115 @@
         grid-template-columns: 1fr;
     }
 }
+.auth-page {
+    min-height: calc(100vh - 64px);
+    display: grid;
+    place-items: center;
+    padding: 22px 12px;
+}
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    overflow: hidden;
+}
+.auth-header {
+    padding: 18px 18px 10px;
+    background: rgba(0,0,0,.02);
+    border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.auth-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+.auth-subtitle {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: rgba(0,0,0,.65);
+    line-height: 1.35;
+}
+.auth-form {
+    padding: 16px 18px 18px;
+    display: grid;
+    gap: 12px;
+}
+.auth-field {
+    display: grid;
+    gap: 6px;
+}
+.auth-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: rgba(0,0,0,.7);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+.auth-input {
+    height: 42px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,.12);
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+    background: #fff;
+}
+.auth-input:focus {
+    border-color: rgba(0,0,0,.35);
+    box-shadow: 0 0 0 4px rgba(0,0,0,.06);
+}
+.auth-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+}
+.auth-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(0,0,0,.7);
+    font-weight: 700;
+}
+.auth-check input {
+    width: 16px;
+    height: 16px;
+}
+.auth-link {
+    font-weight: 800;
+    font-size: 13px;
+    color: rgba(0,0,0,.85);
+    text-decoration: underline;
+}
+.auth-link:hover {
+    color: rgba(0,0,0,1);
+}
+.auth-btn {
+    margin-top: 4px;
+    height: 44px;
+    border: 0;
+    border-radius: 14px;
+    background: #111;
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+}
+.auth-btn:hover {
+    opacity: .92;
+}
+.auth-btn:active {
+    transform: scale(.99);
+}
+.auth-hint {
+    text-align: center;
+    font-size: 13px;
+    color: rgba(0,0,0,.6);
+    margin-top: 2px;
+}
