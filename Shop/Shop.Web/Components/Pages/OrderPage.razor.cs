@@ -13,6 +13,7 @@ namespace Shop.Web.Components.Pages
         private Order? Order { get; set; }
 
         private bool _isShowMessage;
+        private bool _isSuccess;
         private bool _isShowPayMessage;
 
         private decimal Total => Order?.OrderProducts
@@ -31,24 +32,22 @@ namespace Shop.Web.Components.Pages
             //TODO: by UserId
             var result = await Service.PayAsync(1);
 
+            _isSuccess = result;
+            _messageText = result
+                ? "Заказ оплачен"
+                : "Не удалось оплатить";
+
+            _isShowMessage = true;
+            StateHasChanged();
+
+            await Task.Delay(1500);
+
+            _isShowMessage = false;
+            StateHasChanged();
+
             if (result)
             {
-                _messageText = "Заказ оплачен";
-
-                _isShowPayMessage = true;
-                StateHasChanged();
-
-                await Task.Delay(1500);
-
-                _isShowPayMessage = false;
-                StateHasChanged();
-
                 NavigationManager.NavigateTo("/");
-            }
-            else 
-            {
-                _messageText = "Не удалось оплатить";
-                await ShowMessageAsync();
             }
         }
 
