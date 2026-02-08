@@ -6,6 +6,6 @@ namespace Shop.Services.CategoryService
     {
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
 
-        Task<Category?> GetCategory(int id); 
+        Task<Category?> GetCategoryAsync(int id); 
     }
 }

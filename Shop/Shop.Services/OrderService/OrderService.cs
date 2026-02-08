@@ -1,20 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shop.Db;
+﻿using Shop.Data.OrderRepository;
+using Shop.Data.UserRepository;
 using Shop.Db.Entities;
 
 namespace Shop.Services.OrderService
 {
-    public class OrderService(ShopContext context) : IOrderService
+    public class OrderService(IOrderRepository repository, 
+            IUserRepository userRepository) : IOrderService
     {
-        private readonly ShopContext _context = context;
+        private readonly IOrderRepository _repository = repository;
+        private readonly IUserRepository _userRepository = userRepository;
 
-        public async Task<Order?> GetOrder(int userId)
+        public async Task<Order?> GetOrderAsync(int userId)
         {
-            return await _context.Orders
-                .Include(_ => _.OrderProducts)
-                .ThenInclude(_ => _.Product)
-                .ThenInclude(_ => _!.Category)
-                .FirstOrDefaultAsync(_ => _.UserId == userId);
+            return await _repository.GetOrderAsync(userId);
         }
 
         public async Task<bool> IncreaseQuantityAsync(int productId, Order order)
@@ -33,7 +31,7 @@ namespace Shop.Services.OrderService
 
             orderProduct.Quantity++;
 
-            await _context.SaveChangesAsync();
+            await _repository.SaveChangesAsync();
 
             return true;
         }
@@ -54,7 +52,7 @@ namespace Shop.Services.OrderService
 
             orderProduct.Quantity--;
 
-            await _context.SaveChangesAsync();
+            await _repository.SaveChangesAsync();
 
             return true;
         }
@@ -68,23 +66,18 @@ namespace Shop.Services.OrderService
                 return false;
             }
 
-            _context.OrderProducts.Remove(orderProduct);
-            await _context.SaveChangesAsync();
+            await _repository.RemoveProductFromOrderAsync(orderProduct);
 
             return true;
         }
 
         public async Task<bool> PayAsync(int userId)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            using var transaction = await _repository.BeginTransactionAsync();
 
             try
             {
-                var user = await _context.Users
-                    .Include(_ => _.Order)
-                    .ThenInclude(_ => _!.OrderProducts)
-                    .ThenInclude(_ => _.Product)
-                    .FirstOrDefaultAsync(_ => _.Id == userId);
+                var user = await _userRepository.GetUser(userId);
 
                 if (user is null || user.Order is null 
                     || user.Order.OrderProducts.Count == 0)
@@ -120,9 +113,7 @@ namespace Shop.Services.OrderService
                 }
 
                 //Удаляем заказ
-                _context.Orders.Remove(user.Order);
-
-                await _context.SaveChangesAsync();
+                await _repository.RemoveOrderAsync(user.Order);
                 await transaction.CommitAsync();
 
                 return true;

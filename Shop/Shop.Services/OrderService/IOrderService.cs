@@ -4,7 +4,7 @@ namespace Shop.Services.OrderService
 {
     public interface IOrderService
     {
-        Task<Order?> GetOrder(int userId);
+        Task<Order?> GetOrderAsync(int userId);
 
         Task<bool> IncreaseQuantityAsync(int productId, Order order);
 

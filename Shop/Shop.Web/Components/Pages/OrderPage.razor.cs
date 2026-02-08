@@ -23,7 +23,7 @@ namespace Shop.Web.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             //TODO: by UserId
-            Order = await Service.GetOrder(1);
+            Order = await Service.GetOrderAsync(1);
         }
 
         private async Task PayAsync()
