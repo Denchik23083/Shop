@@ -36,7 +36,7 @@ namespace Shop.Services.ProductService
 
                 var userId = 1;
 
-                var user = await _userRepository.GetUser(userId);
+                var user = await _userRepository.GetUserAsync(userId);
 
                 if (user is null)
                 {

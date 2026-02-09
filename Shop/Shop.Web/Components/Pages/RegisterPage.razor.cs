@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Shop.Db.Entities;
 using Shop.Contracts.Models;
 using Shop.Services.UserService;
 
@@ -11,7 +10,7 @@ namespace Shop.Web.Components.Pages
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
-        public RegisterModel RegisterModel = new();
+        private readonly RegisterModel RegisterModel = new();
         private bool _isShowMessage;
         private bool _isSuccess;
         private string _messageText = "";

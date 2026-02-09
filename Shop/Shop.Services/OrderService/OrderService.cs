@@ -77,7 +77,7 @@ namespace Shop.Services.OrderService
 
             try
             {
-                var user = await _userRepository.GetUser(userId);
+                var user = await _userRepository.GetUserAsync(userId);
 
                 if (user is null || user.Order is null 
                     || user.Order.OrderProducts.Count == 0)

@@ -1,17 +1,24 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Shop.Contracts.Models;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
+using System.Security.Claims;
 
 namespace Shop.Services.UserService
 {
-    public class UserService(IUserRepository repository) : IUserService
+    public class UserService(IUserRepository repository, 
+        IHttpContextAccessor http) : IUserService
     {
         private readonly IUserRepository _repository = repository;
+        private readonly IHttpContextAccessor _http = http;
 
         public async Task<bool> RegisterUserAsync(RegisterModel model)
         {
-            if (model.Password != model.ConfirmPassword)
+            if (model.Password != model.ConfirmPassword
+                || await _repository.IsEmailRepeatAsync(model.Email))
             {
                 return false;
             }
@@ -27,6 +34,42 @@ namespace Shop.Services.UserService
             user.Money = 10000.00m;
 
             await _repository.RegisterUserAsync(user);
+
+            return true;
+        }
+
+        public async Task<bool> LoginUserAsync(LoginModel model)
+        {
+            var user = await _repository.GetUserByEmailAsync(model.Email);
+
+            if (user is null ||
+                new PasswordHasher<User>()
+                .VerifyHashedPassword(user, user.PasswordHash, model.Password)
+                is PasswordVerificationResult.Failed)
+            {
+                return false;
+            }
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.Name),
+                new(ClaimTypes.Email, user.Email),
+            };
+
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
+        
+            await _http.HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            principal,
+            new AuthenticationProperties { IsPersistent = true });
+
+            return true;
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            await _http.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return true;
         }
