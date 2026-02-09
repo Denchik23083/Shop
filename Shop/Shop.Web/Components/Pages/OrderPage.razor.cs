@@ -14,12 +14,10 @@ namespace Shop.Web.Components.Pages
 
         private bool _isShowMessage;
         private bool _isSuccess;
-        private bool _isShowPayMessage;
+        private string _messageText = "";
 
         private decimal Total => Order?.OrderProducts
             .Sum(x => x.UnitPrice * x.Quantity) ?? 0m;
-
-        private string _messageText = "";
 
         protected override async Task OnInitializedAsync()
         {
