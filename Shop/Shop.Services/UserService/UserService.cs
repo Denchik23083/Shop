@@ -14,6 +14,7 @@ namespace Shop.Services.UserService
     {
         private readonly IUserRepository _repository = repository;
         private readonly IHttpContextAccessor _http = http;
+        private readonly PasswordHasher<User> _hasher = new();
 
         public async Task<bool> RegisterUserAsync(RegisterModel model)
         {
@@ -38,33 +39,18 @@ namespace Shop.Services.UserService
             return true;
         }
 
-        public async Task<bool> LoginUserAsync(LoginModel model)
+        public async Task<User?> LoginUserAsync(LoginModel model)
         {
             var user = await _repository.GetUserByEmailAsync(model.Email);
 
             if (user is null ||
-                new PasswordHasher<User>()
-                .VerifyHashedPassword(user, user.PasswordHash, model.Password)
+                _hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password)
                 is PasswordVerificationResult.Failed)
             {
-                return false;
+                return null;
             }
 
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Name),
-                new(ClaimTypes.Email, user.Email),
-            };
-
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
-        
-            await _http.HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            principal,
-            new AuthenticationProperties { IsPersistent = true });
-
-            return true;
+            return user;
         }
 
         public async Task<bool> LogoutAsync()

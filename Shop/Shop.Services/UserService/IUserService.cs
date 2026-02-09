@@ -1,4 +1,5 @@
 ﻿using Shop.Contracts.Models;
+using Shop.Db.Entities;
 
 namespace Shop.Services.UserService
 {
@@ -6,7 +7,7 @@ namespace Shop.Services.UserService
     {
         Task<bool> RegisterUserAsync(RegisterModel model);
 
-        Task<bool> LoginUserAsync(LoginModel model);
+        Task<User?> LoginUserAsync(LoginModel model);
 
         Task<bool> LogoutAsync();
     }
