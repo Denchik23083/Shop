@@ -1,19 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Shop.Contracts.Models;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
-using System.Security.Claims;
 
 namespace Shop.Services.UserService
 {
-    public class UserService(IUserRepository repository, 
-        IHttpContextAccessor http) : IUserService
+    public class UserService(IUserRepository repository) : IUserService
     {
         private readonly IUserRepository _repository = repository;
-        private readonly IHttpContextAccessor _http = http;
         private readonly PasswordHasher<User> _hasher = new();
 
         public async Task<bool> RegisterUserAsync(RegisterModel model)
@@ -53,11 +47,9 @@ namespace Shop.Services.UserService
             return user;
         }
 
-        public async Task<bool> LogoutAsync()
+        public async Task<decimal> GetMoneyAsync(int userId)
         {
-            await _http.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return true;
+            return await _repository.GetMoneyAsync(userId);
         }
     }
 }

@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Shop.Db.Entities;
 using Shop.Services.OrderService;
+using System.Security.Claims;
 
 namespace Shop.Web.Components.Pages
 {
     public partial class OrderPage
     {
         [Inject] public IOrderService Service { get; set; } = null!;
+        
+        [Inject] public AuthenticationStateProvider AuthStateProvider { get; set; } = null!;
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
@@ -15,20 +19,49 @@ namespace Shop.Web.Components.Pages
         private bool _isShowMessage;
         private bool _isSuccess;
         private string _messageText = "";
+        private bool _isLoading = true;
 
         private decimal Total => Order?.OrderProducts
             .Sum(x => x.UnitPrice * x.Quantity) ?? 0m;
 
         protected override async Task OnInitializedAsync()
         {
-            //TODO: by UserId
-            Order = await Service.GetOrderAsync(1);
+            _isLoading = true;
+            StateHasChanged();
+
+            var state = await AuthStateProvider.GetAuthenticationStateAsync();
+
+            var userStrId = state.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userStrId, out var userId))
+            {
+                Order = null;
+                await Task.Delay(1000);
+
+                _isLoading = false;
+
+                return;
+            }
+
+            Order = await Service.GetOrderAsync(userId);
+
+            await Task.Delay(1000);
+
+            _isLoading = false;
         }
 
         private async Task PayAsync()
         {
-            //TODO: by UserId
-            var result = await Service.PayAsync(1);
+            var state = await AuthStateProvider.GetAuthenticationStateAsync();
+
+            var userStrId = state.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userStrId, out var userId))
+            {
+                return;
+            }
+            
+            var result = await Service.PayAsync(userId);
 
             _isSuccess = result;
             _messageText = result
@@ -45,7 +78,7 @@ namespace Shop.Web.Components.Pages
 
             if (result)
             {
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", true);
             }
         }
 
@@ -53,39 +86,60 @@ namespace Shop.Web.Components.Pages
         {
             if (Order is null) return;
 
-            var result = await Service.RemoveProductFromOrderAsync(productId, Order);
+            var result = await Service.RemoveProductFromOrderAsync(productId, Order.Id);
 
             if (!result)
             {
                 _messageText = "Не удалось удалить товар";
                 await ShowMessageAsync();
+
+                return;
             }
+
+            var local = Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            if (local is null) return;
+
+            Order.OrderProducts.Remove(local);
         }
 
         private async Task IncreaseQuantityAsync(int productId)
         {
             if (Order is null) return;
 
-            var result = await Service.IncreaseQuantityAsync(productId, Order);
+            var result = await Service.IncreaseQuantityAsync(productId, Order.Id);
 
             if (!result)
             {
                 _messageText = "Достигнут максимум";
                 await ShowMessageAsync();
+
+                return;
             }
+
+            var local = Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            if (local is null) return;
+                
+            local.Quantity++;
         }
 
         private async Task DecreaseQuantityAsync(int productId)
         {
             if (Order is null) return;
 
-            var result = await Service.DecreaseQuantityAsync(productId, Order);
+            var result = await Service.DecreaseQuantityAsync(productId, Order.Id);
 
             if (!result)
             {
                 _messageText = "Достигнут минимум";
                 await ShowMessageAsync();
+
+                return;
             }
+
+            var local = Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            if (local is null) return;
+                    
+            local.Quantity--;
         }
 
         private async Task ShowMessageAsync()

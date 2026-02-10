@@ -1,32 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Shop.Db;
 using Shop.Db.Entities;
 
 namespace Shop.Data.ProductRepository
 {
-    public class ProductRepository(ShopContext context) : IProductRepository
+    public class ProductRepository(IDbContextFactory<ShopContext> factory) : IProductRepository
     {
-        private readonly ShopContext _context = context;
-
-        public async Task<IDbContextTransaction> BeginTransactionAsync()
-        {
-            return await _context.Database.BeginTransactionAsync();
-        }
-
+        private readonly IDbContextFactory<ShopContext> _factory = factory;
+        
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.AsNoTracking().ToListAsync();
+            await using var context = await _factory.CreateDbContextAsync();
+
+            return await context.Products.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Product?> GetProductAsync(int productId)
+        public async Task<Product?> GetProductAsync(ShopContext context, int productId)
         {
-            return await _context.Products.FirstOrDefaultAsync(_ => _.Id == productId);
+            return await context.Products.FirstOrDefaultAsync(_ => _.Id == productId);
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(ShopContext context)
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

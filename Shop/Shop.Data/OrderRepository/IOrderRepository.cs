@@ -1,20 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Shop.Db;
 using Shop.Db.Entities;
 
 namespace Shop.Data.OrderRepository
 {
     public interface IOrderRepository
     {
-        Task<IDbContextTransaction> BeginTransactionAsync();
+        Task<Order?> GetOrderAsync(ShopContext context, int userId);
 
-        Task<Order?> GetOrderAsync(int userId);
+        Task<OrderProduct?> GetOrderProductAsync(ShopContext context, int productId, int orderId);
 
-        Task AddOrderAsync(Order order);
+        Task AddOrderAsync(ShopContext context, Order order);
 
-        Task RemoveOrderAsync(Order order);
+        Task RemoveOrderAsync(ShopContext context, Order order);
 
-        Task RemoveProductFromOrderAsync(OrderProduct orderProduct);
+        Task RemoveProductFromOrderAsync(ShopContext context, OrderProduct orderProduct);
 
-        Task SaveChangesAsync();
+        Task SaveChangesAsync(ShopContext context);
     }
 }

@@ -9,6 +9,6 @@ namespace Shop.Services.UserService
 
         Task<User?> LoginUserAsync(LoginModel model);
 
-        Task<bool> LogoutAsync();
+        Task<decimal> GetMoneyAsync(int userId);
     }
 }

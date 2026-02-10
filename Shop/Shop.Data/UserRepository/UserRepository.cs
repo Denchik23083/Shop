@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Data.UserRepository
 {
-    public class UserRepository(ShopContext context) : IUserRepository
+    public class UserRepository(IDbContextFactory<ShopContext> factory) : IUserRepository
     {
-        private readonly ShopContext _context = context;
+        private readonly IDbContextFactory<ShopContext> _factory = factory;
         
-        public async Task<User?> GetUserAsync(int userId)
+        public async Task<User?> GetUserAsync(ShopContext context, int userId)
         {
-            return await _context.Users
+            return await context.Users
                     .Include(_ => _.Order)
                     .ThenInclude(_ => _!.OrderProducts)
                     .ThenInclude(_ => _.Product)
@@ -19,18 +19,33 @@ namespace Shop.Data.UserRepository
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(_ => _.Email == email);
+            await using var context = await _factory.CreateDbContextAsync();
+
+            return await context.Users.FirstOrDefaultAsync(_ => _.Email == email);
+        }
+
+        public async Task<decimal> GetMoneyAsync(int userId)
+        {
+            await using var context = await _factory.CreateDbContextAsync();
+
+            var user = await context.Users.FirstOrDefaultAsync(_ => _.Id == userId);
+            
+            return user is null ? 0m : user.Money;
         }
 
         public async Task<bool> IsEmailRepeatAsync(string email)
         {
-            return await _context.Users.AnyAsync(u => u.Email == email);
+            await using var context = await _factory.CreateDbContextAsync();
+
+            return await context.Users.AnyAsync(u => u.Email == email);
         }
 
         public async Task RegisterUserAsync(User user)
         {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await using var context = await _factory.CreateDbContextAsync();
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
         }
     }
 }

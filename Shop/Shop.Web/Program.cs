@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Shop.Contracts.Models;
 using Shop.Data.CategoryRepository;
+using Shop.Data.DbContextScopeFactory;
 using Shop.Data.OrderRepository;
 using Shop.Data.ProductRepository;
 using Shop.Data.UserRepository;
@@ -27,11 +28,20 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IDbContextScopeFactory, DbContextScopeFactory>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = ctx =>
+            {
+                ctx.Response.Redirect("login");
+                return Task.CompletedTask;
+            }
+        };
         options.LogoutPath = "/logout";
         options.Cookie.Name = "shop_auth";
         options.SlidingExpiration = true;
@@ -51,7 +61,7 @@ builder.Services.AddScoped(http =>
     };
 });
 
-builder.Services.AddDbContext<ShopContext>(options =>
+builder.Services.AddDbContextFactory<ShopContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
@@ -79,6 +89,13 @@ app.MapPost("/login", async (IUserService service, LoginModel model, HttpContext
 
     await http.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
         new AuthenticationProperties { IsPersistent = true });
+
+    return Results.Ok();
+});
+
+app.MapPost("/logout", async (HttpContext http) =>
+{
+    await http.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
     return Results.Ok();
 });

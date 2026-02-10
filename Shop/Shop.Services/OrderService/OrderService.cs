@@ -1,23 +1,31 @@
-﻿using Shop.Data.OrderRepository;
+﻿using Shop.Data.DbContextScopeFactory;
+using Shop.Data.OrderRepository;
 using Shop.Data.UserRepository;
+using Shop.Db;
 using Shop.Db.Entities;
 
 namespace Shop.Services.OrderService
 {
     public class OrderService(IOrderRepository repository, 
-            IUserRepository userRepository) : IOrderService
+            IUserRepository userRepository,
+            IDbContextScopeFactory dbContextScopeFactory) : IOrderService
     {
         private readonly IOrderRepository _repository = repository;
         private readonly IUserRepository _userRepository = userRepository;
+        private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
 
         public async Task<Order?> GetOrderAsync(int userId)
         {
-            return await _repository.GetOrderAsync(userId);
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            return await _repository.GetOrderAsync(context, userId);
         }
 
-        public async Task<bool> IncreaseQuantityAsync(int productId, Order order)
+        public async Task<bool> IncreaseQuantityAsync(int productId, int orderId)
         {
-            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var orderProduct = await _repository.GetOrderProductAsync(context, productId, orderId);
 
             if (orderProduct is null || orderProduct.Product is null)
             {
@@ -31,14 +39,16 @@ namespace Shop.Services.OrderService
 
             orderProduct.Quantity++;
 
-            await _repository.SaveChangesAsync();
+            await _repository.SaveChangesAsync(context);
 
             return true;
         }
 
-        public async Task<bool> DecreaseQuantityAsync(int productId, Order order)
+        public async Task<bool> DecreaseQuantityAsync(int productId, int orderId)
         {
-            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var orderProduct = await _repository.GetOrderProductAsync(context, productId, orderId);
 
             if (orderProduct is null || orderProduct.Product is null)
             {
@@ -52,32 +62,36 @@ namespace Shop.Services.OrderService
 
             orderProduct.Quantity--;
 
-            await _repository.SaveChangesAsync();
+            await _repository.SaveChangesAsync(context);
 
             return true;
         }
 
-        public async Task<bool> RemoveProductFromOrderAsync(int productId, Order order)
+        public async Task<bool> RemoveProductFromOrderAsync(int productId, int orderId)
         {
-            var orderProduct = order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var orderProduct = await _repository.GetOrderProductAsync(context, productId, orderId);
 
             if (orderProduct is null || orderProduct.Product is null)
             {
                 return false;
             }
 
-            await _repository.RemoveProductFromOrderAsync(orderProduct);
+            await _repository.RemoveProductFromOrderAsync(context, orderProduct);
 
             return true;
         }
 
         public async Task<bool> PayAsync(int userId)
         {
-            using var transaction = await _repository.BeginTransactionAsync();
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            using var transaction = await context.Database.BeginTransactionAsync();
 
             try
             {
-                var user = await _userRepository.GetUserAsync(userId);
+                var user = await _userRepository.GetUserAsync(context, userId);
 
                 if (user is null || user.Order is null 
                     || user.Order.OrderProducts.Count == 0)
@@ -113,7 +127,7 @@ namespace Shop.Services.OrderService
                 }
 
                 //Удаляем заказ
-                await _repository.RemoveOrderAsync(user.Order);
+                await _repository.RemoveOrderAsync(context, user.Order);
                 await transaction.CommitAsync();
 
                 return true;
