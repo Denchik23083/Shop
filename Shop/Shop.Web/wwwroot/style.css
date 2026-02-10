@@ -493,3 +493,21 @@
     color: rgba(0,0,0,.6);
     margin-top: 2px;
 }
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 12px;
+}
+.nav-user-name {
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    white-space: nowrap;
+}
+.nav-user-money {
+    font-weight: 900;
+    font-size: 14px;
+    color: #22c55e;
+    white-space: nowrap;
+}

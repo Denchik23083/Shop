@@ -83,6 +83,13 @@ app.MapPost("/login", async (IUserService service, LoginModel model, HttpContext
     return Results.Ok();
 });
 
+app.MapPost("/logout", async (HttpContext http) =>
+{
+    await http.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+    return Results.Ok();
+});
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);

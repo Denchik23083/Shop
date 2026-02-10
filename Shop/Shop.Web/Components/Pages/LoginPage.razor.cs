@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Shop.Contracts.Models;
 
 namespace Shop.Web.Components.Pages
 {
     public partial class LoginPage
     {
-        [Inject] public HttpClient HttpClient { get; set; } = null!;
+        [Inject] public IJSRuntime JS { get; set; } = null!;
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
@@ -16,9 +17,7 @@ namespace Shop.Web.Components.Pages
 
         public async Task Login()
         {
-            var response = await HttpClient.PostAsJsonAsync("/login", LoginModel);
-
-            var result = response.IsSuccessStatusCode;
+            var result = await JS.InvokeAsync<bool>("auth.login", LoginModel);
 
             _isSuccess = result;
             _messageText = result
