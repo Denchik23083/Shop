@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Shop.Db;
 using Shop.Db.Entities;
 
 namespace Shop.Data.ProductRepository
 {
     public interface IProductRepository
     {
-        Task<IDbContextTransaction> BeginTransactionAsync();
-
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
-        Task<Product?> GetProductAsync(int productId);
+        Task<Product?> GetProductAsync(ShopContext context, int productId);
 
-        Task SaveChangesAsync();
+        Task SaveChangesAsync(ShopContext context);
     }
 }

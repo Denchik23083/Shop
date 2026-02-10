@@ -49,14 +49,7 @@ namespace Shop.Services.UserService
 
         public async Task<decimal> GetMoneyAsync(int userId)
         {
-            var user = await _repository.GetUserAsync(userId);
-
-            if (user is null)
-            {
-                return 0m;
-            }
-
-            return user.Money;
+            return await _repository.GetMoneyAsync(userId);
         }
     }
 }

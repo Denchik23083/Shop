@@ -1,25 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Shop.Db;
 using Shop.Db.Entities;
 
 namespace Shop.Data.OrderRepository
 {
-    public class OrderRepository(IDbContextFactory<ShopContext> factory) : IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
-        private readonly IDbContextFactory<ShopContext> _factory = factory;
-
-        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        public async Task<Order?> GetOrderAsync(ShopContext context, int userId)
         {
-            await using var context = await _factory.CreateDbContextAsync();
-
-            return await context.Database.BeginTransactionAsync();
-        }
-
-        public async Task<Order?> GetOrderAsync(int userId)
-        {
-            await using var context = await _factory.CreateDbContextAsync();
-
             return await context.Orders
                 .Include(_ => _.OrderProducts)
                 .ThenInclude(_ => _.Product)
@@ -27,34 +15,34 @@ namespace Shop.Data.OrderRepository
                 .FirstOrDefaultAsync(_ => _.UserId == userId);
         }
 
-        public async Task AddOrderAsync(Order order)
+        public async Task<OrderProduct?> GetOrderProductAsync(ShopContext context, int productId, int orderId)
         {
-            await using var context = await _factory.CreateDbContextAsync();
+            return await context.OrderProducts
+                .Include(_ => _.Product)
+                .FirstOrDefaultAsync(_ => _.ProductId == productId
+                    && _.OrderId == orderId);
+        }
 
+        public async Task AddOrderAsync(ShopContext context, Order order)
+        {
             context.Orders.Add(order);
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveOrderAsync(Order order)
+        public async Task RemoveOrderAsync(ShopContext context, Order order)
         {
-            await using var context = await _factory.CreateDbContextAsync();
-
             context.Orders.Remove(order);
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveProductFromOrderAsync(OrderProduct orderProduct)
+        public async Task RemoveProductFromOrderAsync(ShopContext context, OrderProduct orderProduct)
         {
-            await using var context = await _factory.CreateDbContextAsync();
-
             context.OrderProducts.Remove(orderProduct);
             await context.SaveChangesAsync();
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(ShopContext context)
         {
-            await using var context = await _factory.CreateDbContextAsync();
-
             await context.SaveChangesAsync();
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Shop.Contracts.Models;
 using Shop.Data.CategoryRepository;
+using Shop.Data.DbContextScopeFactory;
 using Shop.Data.OrderRepository;
 using Shop.Data.ProductRepository;
 using Shop.Data.UserRepository;
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IDbContextScopeFactory, DbContextScopeFactory>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

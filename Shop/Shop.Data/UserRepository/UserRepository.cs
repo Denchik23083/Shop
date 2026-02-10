@@ -8,10 +8,8 @@ namespace Shop.Data.UserRepository
     {
         private readonly IDbContextFactory<ShopContext> _factory = factory;
         
-        public async Task<User?> GetUserAsync(int userId)
+        public async Task<User?> GetUserAsync(ShopContext context, int userId)
         {
-            await using var context = await _factory.CreateDbContextAsync();
-
             return await context.Users
                     .Include(_ => _.Order)
                     .ThenInclude(_ => _!.OrderProducts)
@@ -24,6 +22,15 @@ namespace Shop.Data.UserRepository
             await using var context = await _factory.CreateDbContextAsync();
 
             return await context.Users.FirstOrDefaultAsync(_ => _.Email == email);
+        }
+
+        public async Task<decimal> GetMoneyAsync(int userId)
+        {
+            await using var context = await _factory.CreateDbContextAsync();
+
+            var user = await context.Users.FirstOrDefaultAsync(_ => _.Id == userId);
+            
+            return user is null ? 0m : user.Money;
         }
 
         public async Task<bool> IsEmailRepeatAsync(string email)

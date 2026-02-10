@@ -78,7 +78,7 @@ namespace Shop.Web.Components.Pages
 
             if (result)
             {
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", true);
             }
         }
 
@@ -86,39 +86,60 @@ namespace Shop.Web.Components.Pages
         {
             if (Order is null) return;
 
-            var result = await Service.RemoveProductFromOrderAsync(productId, Order);
+            var result = await Service.RemoveProductFromOrderAsync(productId, Order.Id);
 
             if (!result)
             {
                 _messageText = "Не удалось удалить товар";
                 await ShowMessageAsync();
+
+                return;
             }
+
+            var local = Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            if (local is null) return;
+
+            Order.OrderProducts.Remove(local);
         }
 
         private async Task IncreaseQuantityAsync(int productId)
         {
             if (Order is null) return;
 
-            var result = await Service.IncreaseQuantityAsync(productId, Order);
+            var result = await Service.IncreaseQuantityAsync(productId, Order.Id);
 
             if (!result)
             {
                 _messageText = "Достигнут максимум";
                 await ShowMessageAsync();
+
+                return;
             }
+
+            var local = Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            if (local is null) return;
+                
+            local.Quantity++;
         }
 
         private async Task DecreaseQuantityAsync(int productId)
         {
             if (Order is null) return;
 
-            var result = await Service.DecreaseQuantityAsync(productId, Order);
+            var result = await Service.DecreaseQuantityAsync(productId, Order.Id);
 
             if (!result)
             {
                 _messageText = "Достигнут минимум";
                 await ShowMessageAsync();
+
+                return;
             }
+
+            var local = Order.OrderProducts.FirstOrDefault(_ => _.ProductId == productId);
+            if (local is null) return;
+                    
+            local.Quantity--;
         }
 
         private async Task ShowMessageAsync()

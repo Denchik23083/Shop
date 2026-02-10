@@ -6,11 +6,11 @@ namespace Shop.Services.OrderService
     {
         Task<Order?> GetOrderAsync(int userId);
 
-        Task<bool> IncreaseQuantityAsync(int productId, Order order);
+        Task<bool> IncreaseQuantityAsync(int productId, int orderId);
 
-        Task<bool> DecreaseQuantityAsync(int productId, Order order);
+        Task<bool> DecreaseQuantityAsync(int productId, int orderId);
 
-        Task<bool> RemoveProductFromOrderAsync(int productId, Order order);
+        Task<bool> RemoveProductFromOrderAsync(int productId, int orderId);
     
         Task<bool> PayAsync(int userId);
     }
