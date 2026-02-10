@@ -1,7 +1,15 @@
 ﻿@page "/order"
 @attribute [Authorize]
 
-@if (Order is not null)
+@if (_isLoading)
+{
+    <p class="category-loading">Загрузка...</p>
+}
+else if (Order is null)
+{
+    <p class="category-not-found">Сделайте заказ</p>
+}
+else
 {
     @if (Order.OrderProducts.Count == 0)
     {
@@ -107,4 +115,10 @@
             </div>
         }
     }
+}
+@if (_isShowMessage)
+{
+    <div class="cart-message @( _isSuccess ? "success" : "error" )">
+        @_messageText
+    </div>
 }

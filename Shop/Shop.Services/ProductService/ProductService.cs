@@ -18,7 +18,7 @@ namespace Shop.Services.ProductService
             return await _repository.GetAllProductsAsync();
         }
 
-        public async Task<bool> AddProductToOrderAsync(int productId)
+        public async Task<bool> AddProductToOrderAsync(int productId, int userId)
         {
             using var transaction = await _repository.BeginTransactionAsync();
 
@@ -30,11 +30,6 @@ namespace Shop.Services.ProductService
                 {
                     return false;
                 }
-
-                //TODO: Костыль. В дальнейшем изменить на cookies. На данный 
-                //момент у нас 1 user с id = 1.
-
-                var userId = 1;
 
                 var user = await _userRepository.GetUserAsync(userId);
 
@@ -48,6 +43,7 @@ namespace Shop.Services.ProductService
                     user.Order = new()
                     {
                         CreatedAt = DateTime.UtcNow,
+                        UserId = user.Id
                     };
 
                     await _orderRepository.AddOrderAsync(user.Order);
@@ -60,7 +56,6 @@ namespace Shop.Services.ProductService
                     user.Order.OrderProducts.Add(new OrderProduct
                     {
                         ProductId = product.Id,
-                        OrderId = user.Order.Id,
                         UnitPrice = product.Price,
                         Quantity = 1
                     });
