@@ -502,7 +502,7 @@
 .nav-user-name {
     font-weight: 800;
     font-size: 14px;
-    color: #fff;
+    color: black;
     white-space: nowrap;
 }
 .nav-user-money {
@@ -510,4 +510,7 @@
     font-size: 14px;
     color: #22c55e;
     white-space: nowrap;
+}
+.bi-box-arrow-right:hover {
+    cursor: pointer;
 }

@@ -32,6 +32,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = ctx =>
+            {
+                ctx.Response.Redirect("login");
+                return Task.CompletedTask;
+            }
+        };
         options.LogoutPath = "/logout";
         options.Cookie.Name = "shop_auth";
         options.SlidingExpiration = true;
@@ -51,7 +59,7 @@ builder.Services.AddScoped(http =>
     };
 });
 
-builder.Services.AddDbContext<ShopContext>(options =>
+builder.Services.AddDbContextFactory<ShopContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
