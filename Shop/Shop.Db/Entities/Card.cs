@@ -13,7 +13,7 @@ namespace Shop.Db.Entities
         [MinLength(3)]
         public string Cvv { get; set; } = string.Empty;
 
-        CardBrand Brand { get; set; }
+        public CardBrand Brand { get; set; }
 
         public int ExpMonth { get; set; }
 

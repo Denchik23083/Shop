@@ -1,13 +1,15 @@
-﻿
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Shop.Db.Entities;
+using Shop.Services.CardService;
 using System.Security.Claims;
 
 namespace Shop.Web.Components.Pages
 {
     public partial class ReplenishPage
     {
+        [Inject] public ICardService Service { get; set; } = null!;
+
         [Inject] public AuthenticationStateProvider AuthStateProvider { get; set; } = null!;
 
         private Card? Card { get; set; }
@@ -39,7 +41,7 @@ namespace Shop.Web.Components.Pages
                 return;
             }
 
-            //Card = await Service.GetOrderAsync(userId);
+            Card = await Service.GetCardAsync(userId);
 
             await Task.Delay(1000);
 

@@ -16,9 +16,7 @@ namespace Shop.Services.OrderService
 
         public async Task<Order?> GetOrderAsync(int userId)
         {
-            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
-
-            return await _repository.GetOrderAsync(context, userId);
+            return await _repository.GetOrderAsync(userId);
         }
 
         public async Task<bool> IncreaseQuantityAsync(int productId, int orderId)
@@ -39,7 +37,7 @@ namespace Shop.Services.OrderService
 
             orderProduct.Quantity++;
 
-            await _repository.SaveChangesAsync(context);
+            await _dbContextScopeFactory.SaveChangesAsync(context);
 
             return true;
         }
@@ -62,7 +60,7 @@ namespace Shop.Services.OrderService
 
             orderProduct.Quantity--;
 
-            await _repository.SaveChangesAsync(context);
+            await _dbContextScopeFactory.SaveChangesAsync(context);
 
             return true;
         }

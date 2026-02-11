@@ -12,5 +12,10 @@ namespace Shop.Data.DbContextScopeFactory
         {
             return await _factory.CreateDbContextAsync();
         }
+
+        public async Task SaveChangesAsync(ShopContext context)
+        {
+            await context.SaveChangesAsync();
+        }
     }
 }

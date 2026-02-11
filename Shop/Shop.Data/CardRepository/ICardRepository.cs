@@ -1,8 +1,8 @@
 ﻿using Shop.Db.Entities;
 
-namespace Shop.Services.CardService
+namespace Shop.Data.CardRepository
 {
-    public interface ICardService
+    public interface ICardRepository
     {
         Task<Card?> GetCardAsync(int userId);
     }
