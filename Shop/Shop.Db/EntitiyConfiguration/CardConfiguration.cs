@@ -10,6 +10,17 @@ namespace Shop.Db.EntitiyConfiguration
         {
             builder.HasKey(_ => _.Id);
 
+            builder.Property(_ => _.CardNumber)
+                .HasMaxLength(16)
+                .IsRequired();
+
+            builder.Property(_ => _.Cvv)
+                .HasMaxLength(4)
+                .IsRequired();
+
+            builder.Property(_ => _.ExpMonth).IsRequired();
+            builder.Property(_ => _.ExpYear).IsRequired();
+
             builder.HasIndex(o => o.UserId).IsUnique();
 
             builder.HasOne<User>()
