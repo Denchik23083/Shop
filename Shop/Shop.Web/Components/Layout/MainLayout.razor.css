@@ -20,10 +20,9 @@ main {
     display: flex;
     align-items: center;
 }
-
     .top-row ::deep a, .top-row ::deep .btn-link {
         white-space: nowrap;
-        margin-left: 1.5rem;
+        margin-left: 0;
         text-decoration: none;
     }
 
