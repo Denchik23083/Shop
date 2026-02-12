@@ -4,6 +4,8 @@ namespace Shop.Services.CardService
 {
     public interface ICardService
     {
-        Task<Card?> GetCardAsync(int userId);
+        Task<Card?> GetCardUserAsync(int userId);
+
+        Task<bool> RemoveCardAsync(int cardId);
     }
 }

@@ -7,6 +7,7 @@
 }
 else if (Card is null)
 {
+    @*TODO: Component*@
     <div class="wallet-page">
         <div class="wallet-card">
             <header class="wallet-header">
@@ -47,7 +48,7 @@ else if (Card is null)
                     <label class="label" for="cardName">Имя на карте</label>
                     <input class="input" id="cardName"
                            type="text" autocomplete="cc-name"
-                           placeholder="IVAN IVANOV" />
+                           placeholder="Иван Иванов" />
                 </div>
 
                 <button class="primary-btn" type="button">Сохранить карту</button>
@@ -57,41 +58,5 @@ else if (Card is null)
 }
 else
 {
-    <div class="wallet-page">
-        <div class="wallet-card">
-            <header class="wallet-header">
-                <h1 class="wallet-title">Способы оплаты</h1>
-                <p class="wallet-subtitle">Карта сохранена</p>
-            </header>
-
-            <section class="saved-card">
-                <div class="saved-left">
-                    <div class="brand-pill">VISA</div>
-                    <div class="saved-number">•••• •••• •••• @Number</div>
-                    <div class="saved-meta">Срок: @Card.ExpMonth/@Card.ExpYear · Имя: IVAN IVANOV</div>
-                </div>
-
-                <div class="saved-right">
-                    <button class="danger-btn" type="button">Удалить</button>
-                </div>
-            </section>
-
-            <div class="divider"></div>
-
-            <section class="topup">
-                <h2 class="topup-title">Пополнить баланс</h2>
-
-                <div class="topup-row">
-                    <label class="field grow">
-                        <span class="label">Сумма</span>
-                        <input class="input" type="number" min="1" step="1" placeholder="100" />
-                    </label>
-
-                    <button class="primary-btn" type="button">Пополнить</button>
-                </div>
-
-                <p class="hint">Оплата картой, средства зачисляются на баланс пользователя.</p>
-            </section>
-        </div>
-    </div>
+    <AddCardComponent Card="Card"/>
 }

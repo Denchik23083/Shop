@@ -14,13 +14,7 @@ namespace Shop.Web.Components.Pages
 
         private Card? Card { get; set; }
 
-        private bool _isShowMessage;
-        private bool _isSuccess;
-        private string _messageText = "";
         private bool _isLoading = true;
-
-        private string Number => 
-            Card?.CardNumber.Substring((Card.CardNumber.Length - 4), 4) ?? "";
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,7 +35,7 @@ namespace Shop.Web.Components.Pages
                 return;
             }
 
-            Card = await Service.GetCardAsync(userId);
+            Card = await Service.GetCardUserAsync(userId);
 
             await Task.Delay(1000);
 

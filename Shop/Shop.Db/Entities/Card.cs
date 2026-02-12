@@ -7,10 +7,10 @@ namespace Shop.Db.Entities
     {
         public int Id { get; set; }
 
-        [MinLength(16)]
+        public string CardHolderName { get; set; } = string.Empty;
+
         public string CardNumber { get; set; } = string.Empty;
 
-        [MinLength(3)]
         public string Cvv { get; set; } = string.Empty;
 
         public CardBrand Brand { get; set; }

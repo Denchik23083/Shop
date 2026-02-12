@@ -10,13 +10,23 @@ namespace Shop.Db.EntitiyConfiguration
         {
             builder.HasKey(_ => _.Id);
 
+            builder.Property(_ => _.CardHolderName)
+                .HasMaxLength(30)
+                .IsRequired();
+
             builder.Property(_ => _.CardNumber)
                 .HasMaxLength(16)
                 .IsRequired();
 
+            builder.ToTable(t => t.HasCheckConstraint("CK_CardNumber_Length", "LEN(CardNumber) = 16"));
+
             builder.Property(_ => _.Cvv)
-                .HasMaxLength(4)
+                .HasMaxLength(3)
                 .IsRequired();
+
+            builder.ToTable(t => t.HasCheckConstraint("CK_Cvv_Length", "LEN(Cvv) = 3"));
+
+            builder.Property(_ => _.Brand).HasConversion<int>();
 
             builder.Property(_ => _.ExpMonth).IsRequired();
             builder.Property(_ => _.ExpYear).IsRequired();

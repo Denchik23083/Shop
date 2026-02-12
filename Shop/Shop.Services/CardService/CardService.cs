@@ -7,9 +7,23 @@ namespace Shop.Services.CardService
     {
         private readonly ICardRepository _repository = repository;
 
-        public async Task<Card?> GetCardAsync(int userId)
+        public async Task<Card?> GetCardUserAsync(int userId)
         {
-            return await _repository.GetCardAsync(userId);
+            return await _repository.GetCardUserAsync(userId);
+        }
+
+        public async Task<bool> RemoveCardAsync(int cardId)
+        {
+            var cardToRemove = await _repository.GetCardAsync(cardId);
+
+            if (cardToRemove is null)
+            {
+                return false;
+            }
+
+            await _repository.RemoveCardAsync(cardToRemove);
+
+            return true;
         }
     }
 }

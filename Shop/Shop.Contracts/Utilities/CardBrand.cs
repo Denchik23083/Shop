@@ -3,6 +3,6 @@
     public enum CardBrand
     {
         Visa = 0,
-        MasterCard = 1,
+        Mastercard = 1,
     }
 }
