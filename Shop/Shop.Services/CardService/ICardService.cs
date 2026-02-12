@@ -6,6 +6,8 @@ namespace Shop.Services.CardService
     {
         Task<Card?> GetCardUserAsync(int userId);
 
+        Task<bool> ReplenishAsync(decimal deposit, int userId);
+
         Task<bool> RemoveCardAsync(int cardId);
     }
 }

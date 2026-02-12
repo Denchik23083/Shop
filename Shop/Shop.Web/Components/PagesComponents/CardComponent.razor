@@ -13,7 +13,7 @@
             </div>
 
             <div class="saved-right">
-                <button class="danger-btn" type="button" @onclick="() => Remove(Card.Id)">Удалить</button>
+                <button class="danger-btn" type="button" @onclick="Remove">Удалить</button>
             </div>
         </section>
 
@@ -25,10 +25,10 @@
             <div class="topup-row">
                 <label class="field grow">
                     <span class="label">Сумма</span>
-                    <input class="input" type="number" min="1" step="1" placeholder="100" />
+                    <input class="input" type="number" min="1" step="1" placeholder="100" @bind-value="Deposit" />
                 </label>
 
-                <button class="primary-btn" type="button">Пополнить</button>
+                <button class="primary-btn" type="button" @onclick="Replenish">Пополнить</button>
             </div>
 
             <p class="hint">Оплата картой, средства зачисляются на баланс пользователя.</p>

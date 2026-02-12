@@ -63,6 +63,8 @@ namespace Shop.Web.Components.Pages
             
             var result = await Service.PayAsync(userId);
 
+            await Task.Delay(1000);
+
             _isSuccess = result;
             _messageText = result
                 ? "Заказ оплачен"
