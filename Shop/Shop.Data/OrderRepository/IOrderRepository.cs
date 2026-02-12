@@ -5,7 +5,7 @@ namespace Shop.Data.OrderRepository
 {
     public interface IOrderRepository
     {
-        Task<Order?> GetOrderAsync(ShopContext context, int userId);
+        Task<Order?> GetOrderAsync(int userId);
 
         Task<OrderProduct?> GetOrderProductAsync(ShopContext context, int productId, int orderId);
 
@@ -14,7 +14,5 @@ namespace Shop.Data.OrderRepository
         Task RemoveOrderAsync(ShopContext context, Order order);
 
         Task RemoveProductFromOrderAsync(ShopContext context, OrderProduct orderProduct);
-
-        Task SaveChangesAsync(ShopContext context);
     }
 }

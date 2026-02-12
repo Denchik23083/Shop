@@ -26,7 +26,6 @@ namespace Shop.Services.UserService
             user.Name = model.Name;
             user.Email = model.Email;
             user.PasswordHash = hashedPassword;
-            user.Money = 10000.00m;
 
             await _repository.RegisterUserAsync(user);
 

@@ -13,5 +13,7 @@
         public decimal Money { get; set; }
 
         public Order? Order { get; set; }
+
+        public Card? Card { get; set; }
     }
 }

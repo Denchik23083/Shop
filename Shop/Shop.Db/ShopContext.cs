@@ -12,7 +12,9 @@ namespace Shop.Db
         public DbSet<User> Users { get; set; }
         
         public DbSet<Order> Orders { get; set; }
-        
+
+        public DbSet<Card> Cards { get; set; }
+
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

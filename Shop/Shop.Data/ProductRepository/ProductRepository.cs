@@ -19,10 +19,5 @@ namespace Shop.Data.ProductRepository
         {
             return await context.Products.FirstOrDefaultAsync(_ => _.Id == productId);
         }
-
-        public async Task SaveChangesAsync(ShopContext context)
-        {
-            await context.SaveChangesAsync();
-        }
     }
 }

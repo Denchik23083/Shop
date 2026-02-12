@@ -13,7 +13,9 @@ namespace Shop.Db.EntitiyConfiguration
             builder.Property(_ => _.Name);
             builder.Property(_ => _.Email);
             builder.Property(_ => _.PasswordHash);
-            builder.Property(_ => _.Money).HasPrecision(18, 2);
+            builder.Property(_ => _.Money)
+                .HasPrecision(18, 2)
+                .HasDefaultValue(0m);
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Shop.Services.ProductService
                     orderProduct.Quantity++;
                 }
 
-                await _repository.SaveChangesAsync(context);
+                await _dbContextScopeFactory.SaveChangesAsync(context);
                 await transaction.CommitAsync();
 
                 return true;

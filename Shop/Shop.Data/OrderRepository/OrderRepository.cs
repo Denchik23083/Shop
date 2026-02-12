@@ -4,10 +4,14 @@ using Shop.Db.Entities;
 
 namespace Shop.Data.OrderRepository
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository(IDbContextFactory<ShopContext> factory) : IOrderRepository
     {
-        public async Task<Order?> GetOrderAsync(ShopContext context, int userId)
+        private readonly IDbContextFactory<ShopContext> _factory = factory;
+
+        public async Task<Order?> GetOrderAsync(int userId)
         {
+            await using var context = await _factory.CreateDbContextAsync();
+
             return await context.Orders
                 .Include(_ => _.OrderProducts)
                 .ThenInclude(_ => _.Product)
@@ -38,11 +42,6 @@ namespace Shop.Data.OrderRepository
         public async Task RemoveProductFromOrderAsync(ShopContext context, OrderProduct orderProduct)
         {
             context.OrderProducts.Remove(orderProduct);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task SaveChangesAsync(ShopContext context)
-        {
             await context.SaveChangesAsync();
         }
     }
