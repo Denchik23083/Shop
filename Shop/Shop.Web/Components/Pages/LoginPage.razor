@@ -38,9 +38,4 @@
     </div>
 </div>
 
-@if (_isShowMessage)
-{
-    <div class="cart-message @( _isSuccess ? "success" : "error" )">
-        @_messageText
-    </div>
-}
+<ShowMessage IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />

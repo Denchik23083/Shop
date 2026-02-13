@@ -10,6 +10,7 @@ using Shop.Data.OrderRepository;
 using Shop.Data.ProductRepository;
 using Shop.Data.UserRepository;
 using Shop.Db;
+using Shop.Db.Entities;
 using Shop.Services.CardService;
 using Shop.Services.CategoryService;
 using Shop.Services.OrderService;
@@ -69,6 +70,11 @@ builder.Services.AddDbContextFactory<ShopContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
+});
+
+builder.Services.AddAutoMapper(au =>
+{
+    au.CreateMap<CardModel, Card>();
 });
 
 var app = builder.Build();

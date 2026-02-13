@@ -22,6 +22,14 @@ namespace Shop.Data.CardRepository
             return await context.Cards.FirstOrDefaultAsync(_ => _.UserId == userId);
         }
 
+        public async Task SaveCardAsync(Card mappedCard)
+        {
+            await using var context = await _factory.CreateDbContextAsync();
+
+            await context.Cards.AddAsync(mappedCard);
+            await context.SaveChangesAsync();
+        }
+
         public async Task RemoveCardAsync(Card cardToRemove)
         {
             await using var context = await _factory.CreateDbContextAsync();

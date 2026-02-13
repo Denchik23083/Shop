@@ -7,56 +7,9 @@
 }
 else if (Card is null)
 {
-    @*TODO: Component*@
-    <div class="wallet-page">
-        <div class="wallet-card">
-            <header class="wallet-header">
-                <h1 class="wallet-title">Способы оплаты</h1>
-                <p class="wallet-subtitle">Добавь карту, чтобы пополнять баланс</p>
-            </header>
-
-            <form class="card-form">
-                <div class="field">
-                    <label class="label" for="cardNumber">Номер карты</label>
-                    <input class="input" id="cardNumber"
-                           type="text" inputmode="numeric" autocomplete="cc-number"
-                           placeholder="1234 5678 9012 3456" />
-                </div>
-
-                <div class="row">
-                    <div class="field">
-                        <label class="label" for="expMonth">Срок действия</label>
-                        <div class="two">
-                            <input class="input" id="expMonth"
-                                   type="text" inputmode="numeric" autocomplete="cc-exp-month"
-                                   placeholder="MM" />
-                            <input class="input" id="expYear"
-                                   type="text" inputmode="numeric" autocomplete="cc-exp-year"
-                                   placeholder="YY" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label" for="cvv">CVC</label>
-                        <input class="input" id="cvv"
-                               type="password" inputmode="numeric" autocomplete="cc-csc"
-                               placeholder="***" />
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label" for="cardName">Имя на карте</label>
-                    <input class="input" id="cardName"
-                           type="text" autocomplete="cc-name"
-                           placeholder="Иван Иванов" />
-                </div>
-
-                <button class="primary-btn" type="button">Сохранить карту</button>
-            </form>
-        </div>
-    </div>
+    <AddCardComponent />
 }
 else
 {
-    <AddCardComponent Card="Card"/>
+    <CardComponent Card="Card"/>
 }
