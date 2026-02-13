@@ -1,4 +1,6 @@
-﻿using Shop.Data.CardRepository;
+﻿using AutoMapper;
+using Shop.Contracts.Models;
+using Shop.Data.CardRepository;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
@@ -7,11 +9,13 @@ namespace Shop.Services.CardService
 {
     public class CardService(ICardRepository repository,
             IUserRepository userRepository,
-            IDbContextScopeFactory dbContextScopeFactory) : ICardService
+            IDbContextScopeFactory dbContextScopeFactory,
+            IMapper mapper) : ICardService
     {
         private readonly ICardRepository _repository = repository;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<Card?> GetCardUserAsync(int userId)
         {
@@ -45,6 +49,22 @@ namespace Shop.Services.CardService
                 await transaction.RollbackAsync();
                 return false;
             }
+        }
+
+        public async Task<bool> SaveCardAsync(CardModel cardModel, int userId)
+        {
+            var mappedCard = _mapper.Map<Card>(cardModel);
+
+            if (mappedCard is null)
+            {
+                return false;
+            }
+
+            mappedCard.UserId = userId;
+
+            await _repository.SaveCardAsync(mappedCard);
+            
+            return true;
         }
 
         public async Task<bool> RemoveCardAsync(int cardId)

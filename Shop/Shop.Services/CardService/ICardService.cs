@@ -1,4 +1,5 @@
-﻿using Shop.Db.Entities;
+﻿using Shop.Contracts.Models;
+using Shop.Db.Entities;
 
 namespace Shop.Services.CardService
 {
@@ -7,6 +8,8 @@ namespace Shop.Services.CardService
         Task<Card?> GetCardUserAsync(int userId);
 
         Task<bool> ReplenishAsync(decimal deposit, int userId);
+        
+        Task<bool> SaveCardAsync(CardModel cardModel, int userId);
 
         Task<bool> RemoveCardAsync(int cardId);
     }

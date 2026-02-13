@@ -8,6 +8,8 @@ namespace Shop.Data.CardRepository
 
         Task<Card?> GetCardUserAsync(int userId);
 
+        Task SaveCardAsync(Card mappedCard);
+        
         Task RemoveCardAsync(Card cardToRemove);
     }
 }
