@@ -1,0 +1,75 @@
+﻿<div class="wallet-page">
+    <div class="wallet-card">
+        <header class="wallet-header">
+            <h1 class="wallet-title">Способы оплаты</h1>
+            <p class="wallet-subtitle">Добавь карту, чтобы пополнять баланс</p>
+        </header>
+
+        <EditForm Model="CardModel" OnValidSubmit="@SaveCard" class="card-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="field">
+                <label class="label" for="brand">Вид</label>
+                <div class="select-wrap">
+                    <InputSelect id="brand" @bind-Value="CardModel.Brand" class="select">
+                        @foreach (var brand in Enum.GetValues<CardBrand>())
+                        {
+                            <option value="@brand">@brand</option>
+                        }
+                    </InputSelect>
+                    <span class="select-arrow"></span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="cardNumber">Номер карты</label>
+                <InputText @bind-Value="CardModel.CardNumber" class="input" id="cardNumber"
+                       type="text" maxlength="16" inputmode="numeric" autocomplete="cc-number"
+                       pattern="[0-9]*" placeholder="1234 5678 9012 3456" />
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label class="label" for="expMonth">Срок действия</label>
+                    <div class="two">
+                        <div class="select-wrap">
+                            <InputSelect id="expMonth" @bind-Value="CardModel.ExpMonth" class="select">
+                                @foreach (var month in Months)
+                                {
+                                    <option value="@month">@month.ToString("D2")</option>
+                                }
+                            </InputSelect>
+                            <span class="select-arrow"></span>
+                        </div>
+                        
+                        <div class="select-wrap">
+                            <InputSelect id="expYear" @bind-Value="CardModel.ExpYear" class="select">
+                                @foreach (var year in Years)
+                                {
+                                    <option value="@year">@year</option>
+                                }
+                            </InputSelect>
+                            <span class="select-arrow"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label" for="cvv">CVC</label>
+                    <InputText @bind-Value="CardModel.Cvv" class="input" id="cvv"
+                           type="password" inputmode="numeric" autocomplete="cc-csc"
+                           pattern="[0-9]*" placeholder="***" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label" for="cardName">Имя на карте</label>
+                <InputText @bind-Value="CardModel.CardHolderName" class="input" id="cardName"
+                       type="text" autocomplete="cc-name"
+                       patern="[a-zA-Zа-яА-ЯёЁ\s]+" placeholder="Иван Иванов" />
+            </div>
+
+            <button class="primary-btn" type="submit">Сохранить карту</button>
+        </EditForm>
+    </div>
+</div>
