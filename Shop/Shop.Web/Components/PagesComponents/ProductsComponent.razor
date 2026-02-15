@@ -1,15 +1,17 @@
 ﻿<div class="products">
     @foreach (var item in Lists)
     {
-        <article class="product-card">
+        <article class="product-card" style="--img:url('@item.Image')">
             <div class="product-body">
                 <div class="product-top">
                     <h3 class="product-title">@item.Name</h3>
                     <div class="product-price">@item.Price грн</div>
                 </div>
                 <div class="product-meta">
-                    <span class="badge">Срок до: @item.Expiration.ToString("dd/MM/yyyy")</span>
-                    <span class="badge badge-muted">В наличии: @item.Count</span>
+                    <span class="badge @(item.Expiration < DateTime.UtcNow ? "badge-exp" : "")">
+                        Срок до: @item.Expiration.ToString("dd/MM/yyyy")
+                    </span>
+                    <span class="badge">В наличии: @item.Count</span>
                 </div>
             </div>
             <div class="product-actions">
@@ -23,4 +25,4 @@
     }
 </div>
 
-<ShowMessage IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />

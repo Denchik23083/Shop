@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
-using Shop.Db.Entities;
 using Shop.Services.UserService;
 using System.Security.Claims;
 
 namespace Shop.Web.Components.PagesComponents
 {
-    public partial class UserInfo
+    public partial class UserInfoComponent
     {
         [Inject] public IUserService UserService { get; set; } = null!;
 

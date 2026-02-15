@@ -1,7 +1,6 @@
 ﻿using Shop.Data.DbContextScopeFactory;
 using Shop.Data.OrderRepository;
 using Shop.Data.UserRepository;
-using Shop.Db;
 using Shop.Db.Entities;
 
 namespace Shop.Services.OrderService

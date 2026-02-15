@@ -6,6 +6,10 @@
 
         public string Name { get; set; } = string.Empty;
 
+        public string Image { get; set; } = string.Empty;
+
+        public decimal PurchasePrice { get; set; }
+
         public decimal Price { get; set; }
 
         public DateTime Expiration { get; set; }
