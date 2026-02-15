@@ -2,7 +2,7 @@
 
 namespace Shop.Web.Components.PagesComponents
 {
-    public partial class RedirectToLogin
+    public partial class RedirectToLoginComponent
     {
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 

@@ -3,8 +3,7 @@
 <div class="categories">
     @foreach (var item in Lists)
     {
-        <a href="@($"/category/{item.Id}")" class="category-card" 
-            style="--img:url('@(string.IsNullOrWhiteSpace(item.Image) ? "/img/categories/default.jpg" : "/" + item.Image)')">
+        <a href="@($"/category/{item.Id}")" class="category-card" style="--img:url('@item.Image')">
             <div class="category-title">@item.Name</div>
             <div class="category-hint">Нажми, чтобы открыть товары</div>
         </a>

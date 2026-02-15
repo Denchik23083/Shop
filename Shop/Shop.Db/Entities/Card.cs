@@ -1,5 +1,4 @@
 ﻿using Shop.Contracts.Utilities;
-using System.ComponentModel.DataAnnotations;
 
 namespace Shop.Db.Entities
 {

@@ -1,8 +1,7 @@
 ﻿<div class="products">
     @foreach (var item in Lists)
     {
-        <article class="product-card" 
-            style="--img:url('@(string.IsNullOrWhiteSpace(item.Image) ? "/img/products/default.jpg" : "/" + item.Image)')">
+        <article class="product-card" style="--img:url('@item.Image')">
             <div class="product-body">
                 <div class="product-top">
                     <h3 class="product-title">@item.Name</h3>
@@ -26,4 +25,4 @@
     }
 </div>
 
-<ShowMessage IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />

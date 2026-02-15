@@ -58,7 +58,8 @@ namespace Shop.Db.EntitiyConfiguration
                         Name = "Алкоголь",
                         Image = "img/categories/алкоголь.jpg"
                     }
-                });
+                }
+            );
         }
     }
 }

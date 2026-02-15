@@ -774,3 +774,60 @@
     border-right: 2px solid rgba(0,0,0,.6);
     border-bottom: 2px solid rgba(0,0,0,.6);
 }
+.products-toolbar {
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.products-search {
+    flex: 1;
+    position: relative;
+}
+.search-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,.16);
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    padding: 0 14px 0 42px;
+    font-size: 14px;
+    font-weight: 700;
+    outline: none;
+    background: #fff;
+}
+.search-input::placeholder {
+    color: rgba(0,0,0,.45);
+    font-weight: 600;
+}
+.search-input:focus {
+    border-color: rgba(0,0,0,.35);
+    box-shadow: 0 0 0 4px rgba(0,0,0,.06), 0 10px 30px rgba(0,0,0,.10);
+}
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translateY(-50%);
+    border: 2px solid rgba(0,0,0,.45);
+    border-radius: 50%;
+}
+.search-icon::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 2px;
+    background: rgba(0,0,0,.45);
+    right: -6px;
+    bottom: -4px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+}
+@media (max-width: 520px) {
+    .products-toolbar {
+        padding: 12px 12px 0;
+    }
+}

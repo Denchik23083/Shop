@@ -2,7 +2,7 @@
 
 namespace Shop.Web.Components.PagesComponents
 {
-    public partial class ShowMessage
+    public partial class ShowMessageComponent
     {
         [Parameter] public bool IsShowMessage { get; set; }
 
