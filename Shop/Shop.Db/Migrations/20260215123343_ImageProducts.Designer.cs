@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Db;
 
@@ -11,9 +12,11 @@ using Shop.Db;
 namespace Shop.Db.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20260215123343_ImageProducts")]
+    partial class ImageProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,44 +97,44 @@ namespace Shop.Db.Migrations
                         new
                         {
                             Id = 1,
-                            Image = "img/categories/крупы.jpg",
+                            Image = "",
                             Name = "Крупы"
                         },
                         new
                         {
                             Id = 2,
-                            Image = "img/categories/мучное.jpg",
+                            Image = "",
                             Name = "Мучное"
                         },
                         new
                         {
                             Id = 3,
-                            Image = "img/categories/овощи.jpg",
+                            Image = "",
                             Name = "Овощи"
                         },
                         new
                         {
                             Id = 4,
-                            Image = "img/categories/фрукты.jpg",
+                            Image = "",
                             Name = "Фрукты и ягоды"
                         },
                         new
                         {
                             Id = 5,
-                            Image = "img/categories/молочные_продукты.jpg",
+                            Image = "",
                             Name = "Молочные продукты"
                         },
                         new
                         {
                             Id = 6,
-                            Image = "img/categories/белковые_продукты.jpg",
+                            Image = "",
                             Name = "Белковые продукты"
                         },
                         new
                         {
                             Id = 7,
-                            Image = "img/categories/алкоголь.jpg",
-                            Name = "Алкоголь"
+                            Image = "",
+                            Name = "Другое"
                         });
                 });
 
@@ -233,7 +236,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 1,
                             Count = 40,
                             Expiration = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/гречка.jpg",
+                            Image = "img/гречка.jpg",
                             Name = "Гречка",
                             Price = 100m,
                             PurchasePrice = 50m
@@ -244,7 +247,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 1,
                             Count = 40,
                             Expiration = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/рис.jpg",
+                            Image = "img/рис.jpg",
                             Name = "Рис",
                             Price = 50m,
                             PurchasePrice = 30m
@@ -255,7 +258,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 1,
                             Count = 40,
                             Expiration = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/овсянка.jpg",
+                            Image = "img/овсянка.jpg",
                             Name = "Овсяка",
                             Price = 40m,
                             PurchasePrice = 20m
@@ -266,7 +269,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 2,
                             Count = 30,
                             Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/хлеб_белый.jpg",
+                            Image = "img/хлеб_белый.jpg",
                             Name = "Хлеб белый",
                             Price = 40m,
                             PurchasePrice = 20m
@@ -277,7 +280,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 2,
                             Count = 30,
                             Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/хлеб_черный.jpg",
+                            Image = "img/хлеб_черный.jpg",
                             Name = "Хлеб черный",
                             Price = 40m,
                             PurchasePrice = 20m
@@ -288,7 +291,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 2,
                             Count = 50,
                             Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/булочки.jpg",
+                            Image = "img/хлеб_черный.jpg",
                             Name = "Булочки",
                             Price = 30m,
                             PurchasePrice = 15m
@@ -299,7 +302,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 3,
                             Count = 30,
                             Expiration = new DateTime(2026, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/огурцы.jpg",
+                            Image = "img/огурцы.jpg",
                             Name = "Огурцы",
                             Price = 50m,
                             PurchasePrice = 20m
@@ -310,7 +313,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 3,
                             Count = 30,
                             Expiration = new DateTime(2026, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/помидоры.jpg",
+                            Image = "img/помидоры.jpg",
                             Name = "Помидоры",
                             Price = 70m,
                             PurchasePrice = 40m
@@ -321,7 +324,7 @@ namespace Shop.Db.Migrations
                             CategoryId = 3,
                             Count = 50,
                             Expiration = new DateTime(2026, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/картошка.jpg",
+                            Image = "img/картошка.jpg",
                             Name = "Картошка",
                             Price = 45m,
                             PurchasePrice = 20m
@@ -329,189 +332,13 @@ namespace Shop.Db.Migrations
                         new
                         {
                             Id = 10,
-                            CategoryId = 3,
-                            Count = 50,
-                            Expiration = new DateTime(2026, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/лук.jpg",
-                            Name = "Лук",
-                            Price = 25m,
-                            PurchasePrice = 10m
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CategoryId = 4,
-                            Count = 40,
-                            Expiration = new DateTime(2026, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/яблоки.jpg",
-                            Name = "Яблоки",
-                            Price = 30m,
-                            PurchasePrice = 20m
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CategoryId = 4,
-                            Count = 40,
-                            Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/бананы.jpg",
-                            Name = "Бананы",
-                            Price = 45m,
-                            PurchasePrice = 25m
-                        },
-                        new
-                        {
-                            Id = 13,
-                            CategoryId = 4,
-                            Count = 40,
-                            Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/бананы.jpg",
-                            Name = "Бананы",
-                            Price = 45m,
-                            PurchasePrice = 25m
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CategoryId = 4,
-                            Count = 50,
-                            Expiration = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/мандарины.jpg",
-                            Name = "Мандарины",
-                            Price = 70m,
-                            PurchasePrice = 45m
-                        },
-                        new
-                        {
-                            Id = 15,
-                            CategoryId = 4,
-                            Count = 50,
-                            Expiration = new DateTime(2026, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/виноград.jpg",
-                            Name = "Виноград",
-                            Price = 70m,
-                            PurchasePrice = 45m
-                        },
-                        new
-                        {
-                            Id = 16,
                             CategoryId = 5,
                             Count = 20,
-                            Expiration = new DateTime(2026, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/молоко.jpg",
+                            Expiration = new DateTime(2026, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Image = "img/молоко.jpg",
                             Name = "Молоко",
                             Price = 150m,
                             PurchasePrice = 70m
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CategoryId = 5,
-                            Count = 20,
-                            Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/творог.jpg",
-                            Name = "Творог",
-                            Price = 120m,
-                            PurchasePrice = 60m
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CategoryId = 5,
-                            Count = 20,
-                            Expiration = new DateTime(2026, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/сметана.jpg",
-                            Name = "Сметана",
-                            Price = 100m,
-                            PurchasePrice = 50m
-                        },
-                        new
-                        {
-                            Id = 19,
-                            CategoryId = 5,
-                            Count = 30,
-                            Expiration = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/сыр.jpg",
-                            Name = "Сыр",
-                            Price = 150m,
-                            PurchasePrice = 75m
-                        },
-                        new
-                        {
-                            Id = 20,
-                            CategoryId = 6,
-                            Count = 15,
-                            Expiration = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/курица.jpg",
-                            Name = "Курица",
-                            Price = 250m,
-                            PurchasePrice = 150m
-                        },
-                        new
-                        {
-                            Id = 21,
-                            CategoryId = 6,
-                            Count = 15,
-                            Expiration = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/свинина.jpg",
-                            Name = "Свинина",
-                            Price = 300m,
-                            PurchasePrice = 200m
-                        },
-                        new
-                        {
-                            Id = 22,
-                            CategoryId = 6,
-                            Count = 15,
-                            Expiration = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/рыба.jpg",
-                            Name = "Рыба",
-                            Price = 300m,
-                            PurchasePrice = 200m
-                        },
-                        new
-                        {
-                            Id = 23,
-                            CategoryId = 6,
-                            Count = 200,
-                            Expiration = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/яйца.jpg",
-                            Name = "Яйца",
-                            Price = 100m,
-                            PurchasePrice = 50m
-                        },
-                        new
-                        {
-                            Id = 24,
-                            CategoryId = 6,
-                            Count = 20,
-                            Expiration = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/вино.jpg",
-                            Name = "Вино",
-                            Price = 1000m,
-                            PurchasePrice = 500m
-                        },
-                        new
-                        {
-                            Id = 25,
-                            CategoryId = 6,
-                            Count = 20,
-                            Expiration = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/шампанское.jpg",
-                            Name = "Шампанское",
-                            Price = 800m,
-                            PurchasePrice = 400m
-                        },
-                        new
-                        {
-                            Id = 26,
-                            CategoryId = 6,
-                            Count = 20,
-                            Expiration = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "img/products/коньяк.jpg",
-                            Name = "Коньяк",
-                            Price = 1500m,
-                            PurchasePrice = 700m
                         });
                 });
 
