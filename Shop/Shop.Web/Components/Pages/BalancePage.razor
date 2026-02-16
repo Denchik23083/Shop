@@ -1,0 +1,53 @@
+﻿@page "/balance"
+@attribute [Authorize]
+
+@if (_isLoading)
+{
+    <p class="category-loading">Загрузка...</p>
+}
+else if (Balance is null)
+{
+    <h1 class="cart-title">Ничего</h1>
+}
+else
+{
+    <div class="balance-page">
+        <div class="balance-card">
+            <header class="balance-header">
+                <h1 class="balance-title">Баланс магазина</h1>
+                <p class="balance-subtitle">Статистика за всё время</p>
+            </header>
+
+            <section class="balance-grid">
+                <div class="stat stat-main">
+                    <div class="stat-label">Текущий баланс</div>
+                    <div class="stat-value">@Balance.Money грн</div>
+                    <div class="stat-hint">Доступные средства магазина</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Доход</div>
+                    <div class="stat-value">@Balance.TotalIncome грн</div>
+                    <div class="stat-hint">Всего получено от оплат</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Расход</div>
+                    <div class="stat-value">@Balance.TotalExpense грн</div>
+                    <div class="stat-hint">Всего потрачено на закупки</div>
+                </div>
+            </section>
+
+            <div class="balance-divider"></div>
+
+            <section class="balance-footer">
+                <div class="balance-footer-row">
+                    <span class="footer-label">Последнее обновление</span>
+                    <span class="footer-value">
+                        @(Balance.UpdatedAtUtc is not null ? Balance.UpdatedAtUtc : "")
+                    </span>
+                </div>
+            </section>
+        </div>
+    </div>
+}

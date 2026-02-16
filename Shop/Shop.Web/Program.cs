@@ -8,11 +8,13 @@ using Shop.Data.CategoryRepository;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.OrderRepository;
 using Shop.Data.ProductRepository;
+using Shop.Data.AdminRepository;
 using Shop.Data.UserRepository;
 using Shop.Db;
 using Shop.Db.Entities;
 using Shop.Services.CardService;
 using Shop.Services.CategoryService;
+using Shop.Services.AdminService;
 using Shop.Services.OrderService;
 using Shop.Services.ProductService;
 using Shop.Services.UserService;
@@ -28,11 +30,14 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IDbContextScopeFactory, DbContextScopeFactory>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
