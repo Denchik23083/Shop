@@ -21,6 +21,7 @@ namespace Shop.Db.EntitiyConfiguration
                 .IsRequired();
 
             builder.Property(_ => _.UpdatedAtUtc);
+            builder.Property(_ => _.OrderCount);
 
             builder.HasData(new Balance
             {
@@ -28,6 +29,7 @@ namespace Shop.Db.EntitiyConfiguration
                 Money = 33000m,
                 TotalIncome = 0m,
                 TotalExpense = 0m,
+                OrderCount = 0
             });
         }
     }

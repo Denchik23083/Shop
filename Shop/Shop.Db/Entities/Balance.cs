@@ -11,5 +11,7 @@
         public decimal TotalExpense { get; set; }
 
         public DateTime? UpdatedAtUtc { get; set; }
+
+        public int OrderCount { get; set; }
     }
 }
