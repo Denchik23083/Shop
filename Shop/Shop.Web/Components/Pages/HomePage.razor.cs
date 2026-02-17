@@ -4,7 +4,7 @@ using Shop.Services.ProductService;
 
 namespace Shop.Web.Components.Pages
 {
-    public partial class Home() 
+    public partial class HomePage
     {
         [Inject] public IProductService Service { get; set; } = null!;
         

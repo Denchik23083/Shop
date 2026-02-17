@@ -2,7 +2,7 @@
 
 namespace Shop.Web.Components.PagesComponents
 {
-    public partial class RedirectToLoginComponent
+    public partial class RedirectToHomeComponent
     {
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
@@ -10,7 +10,7 @@ namespace Shop.Web.Components.PagesComponents
         {
             if (firstRender)
             {
-                NavigationManager.NavigateTo("/login", true);
+                NavigationManager.NavigateTo("/", true);
             }
         }
     }

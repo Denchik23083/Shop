@@ -1,5 +1,5 @@
 ﻿@page "/balance"
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Admin")]
 
 @if (_isLoading)
 {

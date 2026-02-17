@@ -127,7 +127,7 @@ namespace Shop.Services.OrderService
                 //Списываем со счета
                 user.Money -= total;
 
-                //Добавляем на балланс
+                //Добавляем на баланс
                 balance.Money += total;
                 balance.TotalIncome += total;
                 balance.UpdatedAtUtc = DateTime.UtcNow;

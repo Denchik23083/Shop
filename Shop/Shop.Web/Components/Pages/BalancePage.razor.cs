@@ -14,9 +14,6 @@ namespace Shop.Web.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _isLoading = true;
-            StateHasChanged();
-
             Balance = await Service.GetBalance();
 
             await Task.Delay(1000);

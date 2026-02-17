@@ -66,7 +66,7 @@ namespace Shop.Web.Components.PagesComponents
             _isSuccess = result;
             _messageText = result
                 ? "Средства зачислены"
-                : "Не удалось пополнить балланс";
+                : "Не удалось пополнить баланс";
 
             _isShowMessage = true;
             StateHasChanged();

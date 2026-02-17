@@ -44,11 +44,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
+        options.AccessDeniedPath = "/";
         options.Events = new CookieAuthenticationEvents
         {
             OnRedirectToLogin = ctx =>
             {
-                ctx.Response.Redirect("login");
+                ctx.Response.Redirect("/login");
+                return Task.CompletedTask;
+            },
+            OnRedirectToAccessDenied = ctx =>
+            {
+                ctx.Response.Redirect("/");
                 return Task.CompletedTask;
             }
         };
@@ -132,5 +138,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
+app.MapFallback(() => Results.Redirect("/"));
 
 app.Run();

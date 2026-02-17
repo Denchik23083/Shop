@@ -15,9 +15,6 @@ namespace Shop.Web.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _isLoading = true;
-            StateHasChanged();
-
             Category = await Service.GetCategoryAsync(CategoryId);
 
             await Task.Delay(1000);
