@@ -18,13 +18,17 @@ namespace Shop.Services.UserService
                 return false;
             }
 
-            var user = new User();
+            var user = new User
+            {
+                Name = model.Name,
+                Email = model.Email,
+                Role = "User",
+                PasswordHash = ""
+            };
 
             var hashedPassword = new PasswordHasher<User>()
                 .HashPassword(user, model.Password);
 
-            user.Name = model.Name;
-            user.Email = model.Email;
             user.PasswordHash = hashedPassword;
 
             await _repository.RegisterUserAsync(user);

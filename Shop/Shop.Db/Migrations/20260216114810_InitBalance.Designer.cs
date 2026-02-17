@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Db;
 
@@ -11,9 +12,11 @@ using Shop.Db;
 namespace Shop.Db.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20260216114810_InitBalance")]
+    partial class InitBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace Shop.Db.Migrations
                     b.Property<decimal>("Money")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("OrderCount")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalExpense")
                         .HasPrecision(18, 2)
@@ -57,7 +57,6 @@ namespace Shop.Db.Migrations
                         {
                             Id = 1,
                             Money = 33000m,
-                            OrderCount = 0,
                             TotalExpense = 0m,
                             TotalIncome = 0m
                         });
@@ -579,10 +578,6 @@ namespace Shop.Db.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

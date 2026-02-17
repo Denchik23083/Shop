@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Shop.Db\Shop.Db.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AdminService\" />
-  </ItemGroup>
-
 </Project>

@@ -18,9 +18,6 @@ namespace Shop.Web.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _isLoading = true;
-            StateHasChanged();
-
             var state = await AuthStateProvider.GetAuthenticationStateAsync();
 
             var userStrId = state.User.FindFirstValue(ClaimTypes.NameIdentifier);

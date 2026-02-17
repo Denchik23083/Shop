@@ -17,6 +17,8 @@ namespace Shop.Db
 
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
+        public DbSet<Balance> Balances { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

@@ -29,7 +29,7 @@ namespace Shop.Data.OrderRepository
 
         public async Task AddOrderAsync(ShopContext context, Order order)
         {
-            context.Orders.Add(order);
+            await context.Orders.AddAsync(order);
             await context.SaveChangesAsync();
         }
 

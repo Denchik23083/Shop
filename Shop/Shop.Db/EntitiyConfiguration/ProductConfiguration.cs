@@ -10,8 +10,8 @@ namespace Shop.Db.EntitiyConfiguration
         {
             builder.HasKey(_ => _.Id);
 
-            builder.Property(_ => _.Name);
-            builder.Property(_ => _.Image);
+            builder.Property(_ => _.Name).IsRequired();
+            builder.Property(_ => _.Image).IsRequired();
             builder.Property(_ => _.PurchasePrice).HasPrecision(18, 2);
             builder.Property(_ => _.Price).HasPrecision(18, 2);
             builder.Property(_ => _.Expiration);

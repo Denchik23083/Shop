@@ -1,16 +1,19 @@
 ﻿using Shop.Data.DbContextScopeFactory;
 using Shop.Data.OrderRepository;
 using Shop.Data.UserRepository;
+using Shop.Data.AdminRepository;
 using Shop.Db.Entities;
 
 namespace Shop.Services.OrderService
 {
     public class OrderService(IOrderRepository repository, 
             IUserRepository userRepository,
+            IAdminRepository adminRepository,
             IDbContextScopeFactory dbContextScopeFactory) : IOrderService
     {
         private readonly IOrderRepository _repository = repository;
         private readonly IUserRepository _userRepository = userRepository;
+        private readonly IAdminRepository _adminRepository = adminRepository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
 
         public async Task<Order?> GetOrderAsync(int userId)
@@ -88,6 +91,13 @@ namespace Shop.Services.OrderService
 
             try
             {
+                var balance = await _adminRepository.GetBalance(context);
+
+                if (balance is null)
+                {
+                    return false;
+                }
+
                 var user = await _userRepository.GetUserAsync(context, userId);
 
                 if (user is null || user.Order is null 
@@ -117,6 +127,12 @@ namespace Shop.Services.OrderService
                 //Списываем со счета
                 user.Money -= total;
 
+                //Добавляем на баланс
+                balance.Money += total;
+                balance.TotalIncome += total;
+                balance.UpdatedAtUtc = DateTime.UtcNow;
+                balance.OrderCount++;
+
                 //Списываем товары со склада
                 foreach (var orderProduct in user.Order.OrderProducts)
                 {
@@ -125,6 +141,8 @@ namespace Shop.Services.OrderService
 
                 //Удаляем заказ
                 await _repository.RemoveOrderAsync(context, user.Order);
+                await _dbContextScopeFactory.SaveChangesAsync(context);
+
                 await transaction.CommitAsync();
 
                 return true;

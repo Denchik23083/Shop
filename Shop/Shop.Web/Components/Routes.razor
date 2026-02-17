@@ -3,7 +3,14 @@
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
                 <NotAuthorized>
-                    <RedirectToLoginComponent />
+                    <AuthorizeView>
+                        <Authorized Context="authCtx">
+                            <RedirectToHomeComponent />
+                        </Authorized>
+                        <NotAuthorized Context="anonCtx">
+                            <RedirectToLoginComponent />
+                        </NotAuthorized>
+                    </AuthorizeView>
                 </NotAuthorized>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="routeData" Selector="h1" />

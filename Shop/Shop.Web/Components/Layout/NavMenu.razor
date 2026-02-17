@@ -25,6 +25,14 @@
                 <span class="bi bi-basket-nav-menu" aria-hidden="true"></span> Заказ
             </NavLink>
         </div>
+
+        <AuthorizeView Roles="Admin">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="balance" Match="NavLinkMatch.All">
+                    <span class="bi bi-cash-nav-menu" aria-hidden="true"></span> Баланс
+                </NavLink>
+            </div>
+        </AuthorizeView>
     </nav>
 </div>
 
