@@ -10,10 +10,12 @@ namespace Shop.Db.EntitiyConfiguration
         {
             builder.HasKey(_ => _.Id);
 
-            builder.Property(_ => _.Name);
-            builder.Property(_ => _.Email);
-            builder.Property(_ => _.PasswordHash);
+            builder.Property(_ => _.Name).IsRequired();
+            builder.Property(_ => _.Email).IsRequired();
+            builder.Property(_ => _.PasswordHash).IsRequired();
+            builder.Property(_ => _.Role).IsRequired();
             builder.Property(_ => _.Money)
+                .IsRequired()
                 .HasPrecision(18, 2)
                 .HasDefaultValue(0m);
         }

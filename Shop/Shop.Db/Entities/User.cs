@@ -4,13 +4,15 @@
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
-        public string Email { get; set; } = string.Empty;
+        public required string Email { get; set; }
 
-        public string PasswordHash { get; set; } = string.Empty;
+        public required string PasswordHash { get; set; }
 
         public decimal Money { get; set; }
+
+        public required string Role { get; set; }
 
         public Order? Order { get; set; }
 

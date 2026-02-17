@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
-        public string Image { get; set; } = string.Empty;
+        public required string Image { get; set; }
 
         public decimal PurchasePrice { get; set; }
 

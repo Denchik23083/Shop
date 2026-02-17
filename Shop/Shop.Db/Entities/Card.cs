@@ -6,11 +6,11 @@ namespace Shop.Db.Entities
     {
         public int Id { get; set; }
 
-        public string CardHolderName { get; set; } = string.Empty;
+        public required string CardHolderName { get; set; }
 
-        public string CardNumber { get; set; } = string.Empty;
+        public required string CardNumber { get; set; }
 
-        public string Cvv { get; set; } = string.Empty;
+        public required string Cvv { get; set; }
 
         public CardBrand Brand { get; set; }
 
