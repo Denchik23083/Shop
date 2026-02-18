@@ -61,7 +61,7 @@ namespace Shop.Web.Components.PagesComponents
 
             var result = await Service.ReplenishAsync(Deposit, userId);
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             _isSuccess = result;
             _messageText = result

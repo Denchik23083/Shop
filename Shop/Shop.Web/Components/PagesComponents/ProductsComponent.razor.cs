@@ -41,7 +41,7 @@ namespace Shop.Web.Components.PagesComponents
 
                 var result = await Service.AddProductToOrderAsync(productId, userId);
 
-                await Task.Delay(1000);
+                await Task.Delay(500);
 
                 _addingProductId = null;
                 StateHasChanged();
@@ -64,6 +64,11 @@ namespace Shop.Web.Components.PagesComponents
                 _addingProductId = null;
                 StateHasChanged();
             }
+        }
+
+        private void Details(int productId)
+        {
+            NavigationManager.NavigateTo($"/products/{productId}");
         }
     }
 }

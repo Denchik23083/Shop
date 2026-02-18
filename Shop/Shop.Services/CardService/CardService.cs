@@ -26,7 +26,7 @@ namespace Shop.Services.CardService
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
-            using var transaction = await context.Database.BeginTransactionAsync();
+            await using var transaction = await context.Database.BeginTransactionAsync();
 
             try
             {

@@ -1,0 +1,95 @@
+﻿@page "/products/{ProductId:int}"
+@attribute [Authorize(Roles = "Admin")]
+
+<div class="category-header">
+    <a class="back-link" href="/">← Все продукты</a>
+
+    @if (_isLoading)
+    {
+        <p class="category-loading">Загрузка...</p>
+    }
+    else if (Product is null)
+    {
+        <h1 class="cart-title">Продукт не найдена</h1>
+    }
+    else
+    {
+        <div class="admin-products-page">
+
+            <header class="admin-header">
+                <h1 class="admin-title">Товар</h1>
+                <p class="admin-subtitle">Админ-панель: управление количеством и параметрами</p>
+            </header>
+
+            <section class="admin-card">
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th class="col-name">Имя</th>
+                                <th class="col-count">Количество</th>
+                                <th class="col-buy">Цена закупки</th>
+                                <th class="col-sell">Цена продажи</th>
+                                <th class="col-actions">Действия</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="@(Product.Expiration < DateTime.UtcNow ? "badge-exp" : "")">
+
+                                <td class="col-name">
+                                    <div class="admin-product-cell">
+                                        <div class="admin-product-name">@Product.Name</div>
+                                        <div class="admin-product-meta">
+                                            Категория: @(Product.Category?.Name ?? "—")
+                                        </div>
+                                        <div class="admin-product-meta">
+                                            Срок до: @Product.Expiration.ToString("dd/MM/yyyy")
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="col-count">
+                                    <span class="count-pill">@Product.Count</span>
+                                </td>
+
+                                <td class="col-buy">
+                                    <span class="money">@Product.PurchasePrice грн</span>
+                                </td>
+
+                                <td class="col-sell">
+                                    <span class="money money-strong">@Product.Price грн</span>
+                                </td>
+
+                                <td class="col-actions">
+                                    <div class="action-buttons">
+
+                                        <button class="pay-btn btn-manage"
+                                                type="button"
+                                                @onclick="OpenManageModal">Управление
+                                        </button>
+
+                                        <button class="pay-btn btn-edit"
+                                                type="button"@*
+                                                @onclick="OpenEditModal*@">Изменить
+                                        </button>
+
+                                        <button class="pay-btn btn-delete"
+                                                type="button"@*
+                                                @onclick="DeleteProduct"*@>Удалить
+                                        </button>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </section>
+        </div>
+    }
+</div>
+<ManageProductModalComponent IsManageOpen="_isManageOpen" Product="Product"/>

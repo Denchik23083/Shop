@@ -21,6 +21,13 @@
                     @(_addingProductId == item.Id ? "Добавляю..." : "В корзину")
                 </button>
             </div>
+            <AuthorizeView Roles="Admin">
+                <div class="product-actions">
+                    <button class="btn-cart" type="button"
+                            @onclick="() => Details(item.Id)">Больше информации
+                    </button>
+                </div>
+            </AuthorizeView>
         </article>
     }
 </div>

@@ -16,7 +16,7 @@ namespace Shop.Web.Components.Pages
         {
             Balance = await Service.GetBalance();
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             _isLoading = false;
         }

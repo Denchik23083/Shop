@@ -17,7 +17,9 @@ namespace Shop.Data.ProductRepository
 
         public async Task<Product?> GetProductAsync(ShopContext context, int productId)
         {
-            return await context.Products.FirstOrDefaultAsync(_ => _.Id == productId);
+            return await context.Products
+                .Include(_ => _.Category)
+                .FirstOrDefaultAsync(_ => _.Id == productId);
         }
     }
 }
