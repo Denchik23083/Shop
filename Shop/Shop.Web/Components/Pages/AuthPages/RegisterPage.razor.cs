@@ -1,29 +1,29 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using Shop.Contracts.Models;
+using Shop.Services.UserService;
 
-namespace Shop.Web.Components.Pages
+namespace Shop.Web.Components.Pages.AuthPages
 {
-    public partial class LoginPage
+    public partial class RegisterPage
     {
-        [Inject] public IJSRuntime JS { get; set; } = null!;
+        [Inject] public IUserService UserService { get; set; } = null!;
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
-        private readonly LoginModel LoginModel = new();
+        private readonly RegisterModel RegisterModel = new();
         private bool _isShowMessage;
         private bool _isSuccess;
         private string _messageText = "";
 
-        public async Task Login()
+        public async Task Register()
         {
-            var result = await JS.InvokeAsync<bool>("auth.login", LoginModel);
+            var result = await UserService.RegisterUserAsync(RegisterModel);
 
             _isSuccess = result;
             _messageText = result
-                ? "Вы успешно вошли"
-                : "Не удалось войти";
-
+                ? "Вы успешно зарегистрировались"
+                : "Не удалось зарегистрироваться";
+                
             _isShowMessage = true;
             StateHasChanged();
 
@@ -34,7 +34,7 @@ namespace Shop.Web.Components.Pages
 
             if (result)
             {
-                NavigationManager.NavigateTo("/", true);
+                NavigationManager.NavigateTo("/login");
             }
         }
     }

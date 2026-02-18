@@ -25,7 +25,7 @@ namespace Shop.Web.Components.Pages
             if (!int.TryParse(userStrId, out var userId))
             {
                 Card = null;
-                await Task.Delay(1000);
+                await Task.Delay(500);
 
                 _isLoading = false;
 
@@ -34,7 +34,7 @@ namespace Shop.Web.Components.Pages
 
             Card = await Service.GetCardUserAsync(userId);
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             _isLoading = false;
         }

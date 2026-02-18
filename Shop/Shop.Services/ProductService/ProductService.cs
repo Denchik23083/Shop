@@ -21,6 +21,13 @@ namespace Shop.Services.ProductService
             return await _repository.GetAllProductsAsync();
         }
 
+        public async Task<Product?> GetProductAsync(int productId)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            return await _repository.GetProductAsync(context, productId);
+        }
+
         public async Task<bool> AddProductToOrderAsync(int productId, int userId)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();

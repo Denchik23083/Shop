@@ -33,7 +33,7 @@ namespace Shop.Web.Components.Pages
             if (!int.TryParse(userStrId, out var userId))
             {
                 Order = null;
-                await Task.Delay(1000);
+                await Task.Delay(500);
 
                 _isLoading = false;
 
@@ -42,7 +42,7 @@ namespace Shop.Web.Components.Pages
 
             Order = await Service.GetOrderAsync(userId);
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             _isLoading = false;
         }
@@ -60,7 +60,7 @@ namespace Shop.Web.Components.Pages
             
             var result = await Service.PayAsync(userId);
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
 
             _isSuccess = result;
             _messageText = result
