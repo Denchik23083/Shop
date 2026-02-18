@@ -1,0 +1,80 @@
+﻿@if (IsManageOpen && Product is not null)
+{
+    <div class="modal-backdrop" @onclick="CloseManageModal">
+        <div class="modal-card" @onclick:stopPropagation="true">
+
+            <header class="modal-header">
+                <h2 class="modal-title">Управление</h2>
+            </header>
+
+            <div class="modal-body">
+                @if (Product.Count == 0)
+                {
+                    <div class="alert alert-info">
+                        Товара нет на складе. Можно выполнить закупку.
+                    </div>
+
+                    <label class="modal-label">Количество для закупки</label>
+
+                    <input class="modal-input"
+                           type="number"
+                           min="1"
+                           step="1"
+                           @bind="_buyQuantity" />
+
+                    <div class="modal-hint">
+                        Списание с баланса: <b>@(Product.PurchasePrice * _buyQuantity) грн</b>
+                    </div>
+
+                    <button class="pay-btn btn-buy big"
+                            type="button"
+                            @onclick="AddQuantityAsync" >
+                        Закупить
+                    </button>
+                }
+                else if (Product.Expiration <= DateTime.UtcNow)
+                {
+                    <div class="alert alert-danger">
+                        Товар просрочен. Рекомендуется списать весь остаток.
+                    </div>
+
+                    <button class="pay-btn btn-delete big"
+                            type="button"
+                            @onclick="DeleteAllQuantityAsync">
+                        Удалить всё количество
+                    </button>                                      
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        Товар не просрочен. Можно докупить количество.
+                    </div>
+
+                    <label class="modal-label">Количество для закупки</label>
+
+                    <input class="modal-input"
+                           type="number"
+                           min="1"
+                           step="1"
+                           @bind="_purchaseQuantity" />
+
+                    <div class="modal-hint">
+                        Списание с баланса: <b>@(Product.PurchasePrice * _purchaseQuantity) грн</b>
+                    </div>
+
+                    <button class="pay-btn btn-buy big"
+                            type="button"
+                            @onclick="PurchaseQuantityAsync">
+                        Докупить
+                    </button>
+                }
+            </div>
+
+            <footer class="modal-footer">
+                <button class="btn modal-close-btn" type="button" @onclick="CloseManageModal">Закрыть</button>
+            </footer>
+
+        </div>
+    </div>
+}
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
