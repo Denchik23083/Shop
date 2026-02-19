@@ -65,8 +65,8 @@
                                                 @onclick="OpenEditModal">Изменить
                                         </button>
                                         <button class="pay-btn btn-delete"
-                                                type="button"@*
-                                                @onclick="DeleteProduct"*@>Удалить
+                                                type="button"
+                                                @onclick="OpenDeleteModal">Удалить
                                         </button>
                                     </div>
                                 </td>
@@ -80,3 +80,4 @@
 </div>
 <ManageProductModalComponent IsManageOpen="_isManageOpen" Product="Product" />
 <EditProductModalComponent IsEditOpen="_isEditOpen" Product="Product" />
+<DeleteProductModalComponent IsDeleteOpen="_isDeleteOpen" Product="Product" />

@@ -1,0 +1,22 @@
+﻿@if (IsDeleteOpen && Product is not null)
+{
+    <div class="modal-backdrop" @onclick="CloseDeleteModal">
+        <div class="modal-card" @onclick:stopPropagation="true">
+            <header class="modal-header">
+                <h2 class="modal-title">Удадение</h2>
+            </header>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    Вы точно хотите полностью удалить товар: @Product.Name?
+                </div>
+                <div class="modal-actions">
+                    <button class="pay-btn btn-delete" type="button"
+                            @onclick="DeleteAsync">Удалить
+                    </button>
+                    <button class="btn modal-close-btn" type="button" @onclick="CloseDeleteModal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />

@@ -21,27 +21,6 @@ namespace Shop.Services.AdminService
             return await _repository.GetBalance(context);
         }
 
-        public async Task<bool> UpdateProductAsync(ProductEditModel productEditModel, int productId)
-        {
-            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
-
-            var product = await _productRepository.GetProductAsync(context, productId);
-
-            if (product is null)
-            {
-                return false;
-            }
-
-            product.Name = productEditModel.Name;
-            product.PurchasePrice = productEditModel.PurchasePrice;
-            product.Price = productEditModel.Price;
-            product.CategoryId = productEditModel.CategoryId;
-
-            await _dbContextScopeFactory.SaveChangesAsync(context);
-
-            return true;
-        }
-
         public async Task<bool> AddQuantityAsync(int productId, int buyQuantity, int dayExpired)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
@@ -125,6 +104,27 @@ namespace Shop.Services.AdminService
             }
         }
 
+        public async Task<bool> UpdateProductAsync(ProductEditModel productEditModel, int productId)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var product = await _productRepository.GetProductAsync(context, productId);
+
+            if (product is null)
+            {
+                return false;
+            }
+
+            product.Name = productEditModel.Name;
+            product.PurchasePrice = productEditModel.PurchasePrice;
+            product.Price = productEditModel.Price;
+            product.CategoryId = productEditModel.CategoryId;
+
+            await _dbContextScopeFactory.SaveChangesAsync(context);
+
+            return true;
+        }
+
         public async Task<bool> DeleteAllQuantityAsync(int productId)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
@@ -139,6 +139,22 @@ namespace Shop.Services.AdminService
             product.Count = 0;
 
             await _dbContextScopeFactory.SaveChangesAsync(context);
+
+            return true;
+        }
+
+        public async Task<bool> RemoveProductAsync(int productId)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var product = await _productRepository.GetProductAsync(context, productId);
+
+            if (product is null)
+            {
+                return false;
+            }
+
+            await _productRepository.RemoveProductAsync(context, product);
 
             return true;
         }

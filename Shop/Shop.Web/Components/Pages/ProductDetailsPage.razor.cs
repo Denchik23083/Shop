@@ -14,6 +14,7 @@ namespace Shop.Web.Components.Pages
         private bool _isLoading = true;
         private bool _isManageOpen;
         private bool _isEditOpen;
+        private bool _isDeleteOpen;
 
         protected override async Task OnInitializedAsync()
         {
@@ -27,13 +28,22 @@ namespace Shop.Web.Components.Pages
         private void OpenManageModal()
         {
             _isEditOpen = false;
+            _isDeleteOpen = false;
             _isManageOpen = true;
         }
 
         private void OpenEditModal()
         {
             _isManageOpen = false;
+            _isDeleteOpen = false;
             _isEditOpen = true;
+        }
+
+        private void OpenDeleteModal()
+        {
+            _isManageOpen = false;
+            _isEditOpen = false;
+            _isDeleteOpen = true;
         }
     }
 }
