@@ -32,20 +32,5 @@ namespace Shop.Data.UserRepository
             
             return user is null ? 0m : user.Money;
         }
-
-        public async Task<bool> IsEmailRepeatAsync(string email)
-        {
-            await using var context = await _factory.CreateDbContextAsync();
-
-            return await context.Users.AnyAsync(u => u.Email == email);
-        }
-
-        public async Task RegisterUserAsync(User user)
-        {
-            await using var context = await _factory.CreateDbContextAsync();
-
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
-        }
     }
 }

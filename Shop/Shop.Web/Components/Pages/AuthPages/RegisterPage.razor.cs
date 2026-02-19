@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shop.Contracts.Models;
-using Shop.Services.UserService;
+using Shop.Services.AuthService;
 
 namespace Shop.Web.Components.Pages.AuthPages
 {
     public partial class RegisterPage
     {
-        [Inject] public IUserService UserService { get; set; } = null!;
+        [Inject] public IAuthService Service { get; set; } = null!;
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
@@ -17,7 +17,7 @@ namespace Shop.Web.Components.Pages.AuthPages
 
         public async Task Register()
         {
-            var result = await UserService.RegisterUserAsync(RegisterModel);
+            var result = await Service.RegisterUserAsync(RegisterModel);
 
             _isSuccess = result;
             _messageText = result

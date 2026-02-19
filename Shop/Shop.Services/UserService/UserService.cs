@@ -1,56 +1,25 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Shop.Contracts.Models;
 using Shop.Contracts.Utilities;
+using Shop.Data.DbContextScopeFactory;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
 
 namespace Shop.Services.UserService
 {
-    public class UserService(IUserRepository repository) : IUserService
+    public class UserService(IUserRepository repository,
+            IDbContextScopeFactory dbContextScopeFactory) : IUserService
     {
         private readonly IUserRepository _repository = repository;
-        private readonly PasswordHasher<User> _hasher = new();
-
-        public async Task<bool> RegisterUserAsync(RegisterModel model)
+        private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
+        
+        public async Task<User?> GetUserAsync(int userId)
         {
-            if (model.Password != model.ConfirmPassword
-                || await _repository.IsEmailRepeatAsync(model.Email))
-            {
-                return false;
-            }
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
-            var user = new User
-            {
-                Name = model.Name,
-                Email = model.Email,
-                Role = RoleType.User,
-                PasswordHash = string.Empty
-            };
-
-            var hashedPassword = new PasswordHasher<User>()
-                .HashPassword(user, model.Password);
-
-            user.PasswordHash = hashedPassword;
-
-            await _repository.RegisterUserAsync(user);
-
-            return true;
+            return await _repository.GetUserAsync(context, userId);
         }
-
-        public async Task<User?> LoginUserAsync(LoginModel model)
-        {
-            var user = await _repository.GetUserByEmailAsync(model.Email);
-
-            if (user is null ||
-                _hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password)
-                is PasswordVerificationResult.Failed)
-            {
-                return null;
-            }
-
-            return user;
-        }
-
+        
         public async Task<decimal> GetMoneyAsync(int userId)
         {
             return await _repository.GetMoneyAsync(userId);

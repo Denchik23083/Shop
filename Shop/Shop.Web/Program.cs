@@ -10,6 +10,7 @@ using Shop.Data.OrderRepository;
 using Shop.Data.ProductRepository;
 using Shop.Data.AdminRepository;
 using Shop.Data.UserRepository;
+using Shop.Data.AuthRepository;
 using Shop.Db;
 using Shop.Db.Entities;
 using Shop.Services.CardService;
@@ -18,6 +19,7 @@ using Shop.Services.AdminService;
 using Shop.Services.OrderService;
 using Shop.Services.ProductService;
 using Shop.Services.UserService;
+using Shop.Services.AuthService;
 using Shop.Web.Components;
 using System.Security.Claims;
 
@@ -25,6 +27,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -32,6 +35,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -56,6 +60,31 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             {
                 ctx.Response.Redirect("/");
                 return Task.CompletedTask;
+            },
+            OnValidatePrincipal = async ctx =>
+            {
+                var userService = ctx.HttpContext.RequestServices
+                    .GetRequiredService<IUserService>();
+
+                var userIdStr = ctx.Principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (!int.TryParse(userIdStr, out var userId))
+                {
+                    ctx.RejectPrincipal();
+                    await ctx.HttpContext.SignOutAsync();
+                    return;
+                }
+
+                var user = await userService.GetUserAsync(userId);
+
+                var roleClaim = ctx.Principal?.FindFirstValue(ClaimTypes.Role);
+
+                if (user is null || roleClaim != user.Role.ToString())
+                {
+                    ctx.RejectPrincipal();
+                    await ctx.HttpContext.SignOutAsync();
+                    return;
+                }
             }
         };
         options.LogoutPath = "/logout";
@@ -91,7 +120,7 @@ builder.Services.AddAutoMapper(au =>
 
 var app = builder.Build();
 
-app.MapPost("/login", async (IUserService service, LoginModel model, HttpContext http) =>
+app.MapPost("/login", async (IAuthService service, LoginModel model, HttpContext http) =>
 {
     var user = await service.LoginUserAsync(model);
 

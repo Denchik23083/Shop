@@ -10,9 +10,5 @@ namespace Shop.Data.UserRepository
         Task<User?> GetUserByEmailAsync(string email);
 
         Task<decimal> GetMoneyAsync(int userId);
-
-        Task<bool> IsEmailRepeatAsync(string email);
-
-        Task RegisterUserAsync(User user);
     }
 }
