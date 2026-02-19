@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
+using Shop.Db.Entities;
+using Shop.Db.Migrations;
 using Shop.Services.UserService;
 using System.Security.Claims;
 

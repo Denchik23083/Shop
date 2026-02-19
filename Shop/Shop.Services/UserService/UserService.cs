@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Shop.Contracts.Models;
+using Shop.Contracts.Utilities;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
 
@@ -22,8 +23,8 @@ namespace Shop.Services.UserService
             {
                 Name = model.Name,
                 Email = model.Email,
-                Role = "User",
-                PasswordHash = ""
+                Role = RoleType.User,
+                PasswordHash = string.Empty
             };
 
             var hashedPassword = new PasswordHasher<User>()

@@ -13,7 +13,9 @@ namespace Shop.Db.EntitiyConfiguration
             builder.Property(_ => _.Name).IsRequired();
             builder.Property(_ => _.Email).IsRequired();
             builder.Property(_ => _.PasswordHash).IsRequired();
-            builder.Property(_ => _.Role).IsRequired();
+            builder.Property(_ => _.Role)
+                .HasConversion<int>()
+                .IsRequired();
             builder.Property(_ => _.Money)
                 .IsRequired()
                 .HasPrecision(18, 2)

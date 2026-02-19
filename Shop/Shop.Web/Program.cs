@@ -105,7 +105,7 @@ app.MapPost("/login", async (IUserService service, LoginModel model, HttpContext
         new(ClaimTypes.NameIdentifier, user.Id.ToString()),
         new(ClaimTypes.Name, user.Name),
         new(ClaimTypes.Email, user.Email),
-        new(ClaimTypes.Role, user.Role)
+        new(ClaimTypes.Role, user.Role.ToString())
     };
 
     var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));

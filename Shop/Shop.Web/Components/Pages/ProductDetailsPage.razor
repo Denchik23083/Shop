@@ -1,5 +1,5 @@
 ﻿@page "/products/{ProductId:int}"
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize(Roles = "God,Admin")]
 
 <div class="category-header">
     <a class="back-link" href="/">← Все продукты</a>
