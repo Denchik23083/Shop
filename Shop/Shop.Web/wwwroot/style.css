@@ -1146,6 +1146,7 @@
 }
 .btn:hover {
     opacity: .92;
+    background-color: rgba(0,0,0,.08);
 }
 .btn:active {
     transform: scale(.99);

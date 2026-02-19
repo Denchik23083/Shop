@@ -13,6 +13,7 @@ namespace Shop.Web.Components.Pages
         private Product? Product { get; set; }
         private bool _isLoading = true;
         private bool _isManageOpen;
+        private bool _isEditOpen;
 
         protected override async Task OnInitializedAsync()
         {
@@ -23,6 +24,16 @@ namespace Shop.Web.Components.Pages
             _isLoading = false;
         }
 
-        private void OpenManageModal() => _isManageOpen = true;
+        private void OpenManageModal()
+        {
+            _isEditOpen = false;
+            _isManageOpen = true;
+        }
+
+        private void OpenEditModal()
+        {
+            _isManageOpen = false;
+            _isEditOpen = true;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Shop.Db.Entities;
+﻿using Shop.Contracts.Models;
+using Shop.Db.Entities;
 
 namespace Shop.Services.AdminService
 {
@@ -6,7 +7,11 @@ namespace Shop.Services.AdminService
     {
         Task<Balance?> GetBalance();
 
-        Task<bool> AddQuantityAsync(int productId, int quantity);
+        Task<bool> UpdateProductAsync(ProductEditModel productEditModel, int productId);
+        
+        Task<bool> AddQuantityAsync(int productId, int buyQuantity, int dayExpired);
+
+        Task<bool> PurchaseQuantityAsync(int productId, int purchaseQuantity);
 
         Task<bool> DeleteAllQuantityAsync(int productId);
     }

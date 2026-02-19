@@ -38,7 +38,7 @@ namespace Shop.Services.ProductService
             {
                 var product = await _repository.GetProductAsync(context, productId);
 
-                if (product is null)
+                if (product is null || product.Expiration <= DateTime.UtcNow)
                 {
                     return false;
                 }

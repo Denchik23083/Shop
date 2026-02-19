@@ -14,6 +14,14 @@
                         Товара нет на складе. Можно выполнить закупку.
                     </div>
 
+                    <label class="modal-label">Срок годности товаров в днях</label>
+
+                    <input class="modal-input"
+                           type="number"
+                           min="1"
+                           step="1"
+                           @bind="_dayExpired" />
+
                     <label class="modal-label">Количество для закупки</label>
 
                     <input class="modal-input"

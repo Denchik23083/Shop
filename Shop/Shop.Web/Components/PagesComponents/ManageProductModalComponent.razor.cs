@@ -16,6 +16,7 @@ namespace Shop.Web.Components.PagesComponents
 
         private int _purchaseQuantity = 1;
         private int _buyQuantity = 1;
+        private int _dayExpired = 1;
         private bool _isShowMessage;
         private bool _isSuccess;
         private string _messageText = "";
@@ -24,7 +25,7 @@ namespace Shop.Web.Components.PagesComponents
 
         private async Task AddQuantityAsync()
         {
-            var result = await Service.AddQuantityAsync(Product.Id, _buyQuantity);
+            var result = await Service.AddQuantityAsync(Product.Id, _buyQuantity, _dayExpired);
 
             await Task.Delay(500);
 
@@ -38,7 +39,7 @@ namespace Shop.Web.Components.PagesComponents
 
         private async Task PurchaseQuantityAsync()
         {
-            var result = await Service.AddQuantityAsync(Product.Id, _purchaseQuantity);
+            var result = await Service.PurchaseQuantityAsync(Product.Id, _purchaseQuantity);
 
             await Task.Delay(500);
 
