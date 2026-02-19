@@ -21,5 +21,11 @@ namespace Shop.Data.ProductRepository
                 .Include(_ => _.Category)
                 .FirstOrDefaultAsync(_ => _.Id == productId);
         }
+
+        public async Task RemoveProductAsync(ShopContext context, Product product)
+        {
+            context.Products.Remove(product);
+            await context.SaveChangesAsync();
+        }
     }
 }

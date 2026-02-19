@@ -285,7 +285,7 @@ namespace Shop.Db.EntitiyConfiguration
                         Price = 1000,
                         Count = 20,
                         Expiration = new DateTime(2026, 4, 1),
-                        CategoryId = 6
+                        CategoryId = 7
                     },
                     new()
                     {
@@ -296,7 +296,7 @@ namespace Shop.Db.EntitiyConfiguration
                         Price = 800,
                         Count = 20,
                         Expiration = new DateTime(2026, 4, 1),
-                        CategoryId = 6
+                        CategoryId = 7
                     },
                     new()
                     {
@@ -307,7 +307,7 @@ namespace Shop.Db.EntitiyConfiguration
                         Price = 1500,
                         Count = 20,
                         Expiration = new DateTime(2026, 4, 1),
-                        CategoryId = 6
+                        CategoryId = 7
                     }
                 }
             );

@@ -49,7 +49,7 @@ namespace Shop.Web.Components.PagesComponents
                 _isSuccess = result;
                 _messageText = result
                     ? "Товар добавлен в корзину"
-                    : "Не удалось добавить в корзину";
+                    : "Товар просрочен";
 
                 _isShowMessage = true;
                 StateHasChanged();

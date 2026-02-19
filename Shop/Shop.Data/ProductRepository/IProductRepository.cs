@@ -8,5 +8,7 @@ namespace Shop.Data.ProductRepository
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
         Task<Product?> GetProductAsync(ShopContext context, int productId);
+        
+        Task RemoveProductAsync(ShopContext context, Product product);
     }
 }

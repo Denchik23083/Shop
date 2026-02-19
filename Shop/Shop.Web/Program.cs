@@ -86,6 +86,7 @@ builder.Services.AddDbContextFactory<ShopContext>(options =>
 builder.Services.AddAutoMapper(au =>
 {
     au.CreateMap<CardModel, Card>();
+    au.CreateMap<ProductModel, Product>();
 });
 
 var app = builder.Build();
