@@ -15,22 +15,23 @@
                 <div class="product-actions">
                     <button class="pay-btn btn-manage"
                             type="button"
-                            @onclick="() => UserToAdmin(item.Id)">
+                            @onclick="() => OpenUserToAdminModal(item)">
                         Повысить
                     </button>
                 </div>
             </AuthorizeView>
             <AuthorizeView Roles="God,Admin">
-            <div class="product-actions">
-                <button class="pay-btn btn-delete"
-                        type="button"@*
-                        @onclick="OpenDeleteModal"*@>
-                    Удалить
-                </button>
-            </div>
+                <div class="product-actions">
+                    <button class="pay-btn btn-delete"
+                            type="button" 
+                            @onclick="() => OpenDeleteUserModal(item)">
+                        Удалить
+                    </button>
+                </div>
             </AuthorizeView>
         </article>
     }
 </div>
 
-<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
+<UserToAdminModalComponent IsUserToAdminOpen="_isUserToAdminOpen" User="_user" />
+<DeleteUserModalComponent IsDeleteUserOpen="_isDeleteUserOpen" User="_user" />

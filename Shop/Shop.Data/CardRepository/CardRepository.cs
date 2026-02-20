@@ -30,11 +30,11 @@ namespace Shop.Data.CardRepository
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveCardAsync(Card cardToRemove)
+        public async Task DeleteCardAsync(Card cardToDelete)
         {
             await using var context = await _factory.CreateDbContextAsync();
 
-            context.Cards.Remove(cardToRemove);
+            context.Cards.Remove(cardToDelete);
             await context.SaveChangesAsync();
         }
     }

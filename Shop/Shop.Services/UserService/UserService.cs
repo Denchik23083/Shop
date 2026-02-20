@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Shop.Contracts.Models;
-using Shop.Contracts.Utilities;
+﻿using Shop.Contracts.Utilities;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;

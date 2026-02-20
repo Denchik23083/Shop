@@ -15,8 +15,8 @@
                 <div class="product-actions">
                     <button class="pay-btn btn-manage"
                             type="button"
-                            @onclick="() => AdminToUser(item.Id)">
-                        Понизить до юзера
+                            @onclick="() => OpenUserToAdminModal(item)">
+                        Понизить
                     </button>
                 </div>
             </AuthorizeView>
@@ -24,4 +24,4 @@
     }
 </div>
 
-<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
+<AdminToUserModalComponent IsAdminToUserOpen="_isAdminToUserOpen" Admin="_admin" />

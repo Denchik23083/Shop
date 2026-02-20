@@ -2,7 +2,6 @@
 using Shop.Contracts.Utilities;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.UserRepository;
-using Shop.Db.Entities;
 
 namespace Shop.Services.GodService
 {
@@ -14,7 +13,7 @@ namespace Shop.Services.GodService
 
         public async Task<bool> UserToAdminAsync(int userId)
         {
-            using var context = await dbContextScopeFactory.GetSingleDbContextAsync();
+            using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
             var user = await _userRepository.GetUserByRoleAsync(context, userId, RoleType.User);
 
@@ -32,7 +31,7 @@ namespace Shop.Services.GodService
 
         public async Task<bool> AdminToUserAsync(int adminId)
         {
-            using var context = await dbContextScopeFactory.GetSingleDbContextAsync();
+            using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
             var admin = await _userRepository.GetUserByRoleAsync(context, adminId, RoleType.Admin);
 

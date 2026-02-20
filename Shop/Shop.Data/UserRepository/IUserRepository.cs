@@ -15,5 +15,7 @@ namespace Shop.Data.UserRepository
         Task<User?> GetUserByRoleAsync(ShopContext context, int userId, RoleType role);
 
         Task<decimal> GetMoneyAsync(int userId);
+
+        Task DeleteUserAsync(ShopContext context, User user);
     }
 }

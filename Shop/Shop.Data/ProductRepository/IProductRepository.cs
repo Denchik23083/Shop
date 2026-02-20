@@ -9,6 +9,6 @@ namespace Shop.Data.ProductRepository
 
         Task<Product?> GetProductAsync(ShopContext context, int productId);
         
-        Task RemoveProductAsync(ShopContext context, Product product);
+        Task DeleteProductAsync(ShopContext context, Product product);
     }
 }

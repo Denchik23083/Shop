@@ -329,7 +329,7 @@
     font-size: 14px;
     color: rgba(0,0,0,.6);
 }
-.remove-link {
+.delete-link {
     display: inline-block;
     margin-top: 8px;
     padding: 0;
@@ -340,7 +340,7 @@
     font-weight: 700;
     text-decoration: underline;
 }
-.remove-link:hover {
+.delete-link:hover {
     color: crimson;
 }
 .empty-cell {

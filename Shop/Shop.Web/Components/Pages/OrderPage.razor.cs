@@ -81,11 +81,11 @@ namespace Shop.Web.Components.Pages
             }
         }
 
-        private async Task RemoveProductFromOrderAsync(int productId)
+        private async Task DeleteProductFromOrderAsync(int productId)
         {
             if (Order is null) return;
 
-            var result = await Service.RemoveProductFromOrderAsync(productId, Order.Id);
+            var result = await Service.DeleteProductFromOrderAsync(productId, Order.Id);
 
             if (!result)
             {

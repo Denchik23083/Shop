@@ -15,6 +15,8 @@ namespace Shop.Services.AdminService
 
         Task<bool> DeleteAllQuantityAsync(int productId);
 
-        Task<bool> RemoveProductAsync(int productId);
+        Task<bool> DeleteProductAsync(int productId);
+
+        Task<bool> DeleteUserAsync(int userId);
     }
 }

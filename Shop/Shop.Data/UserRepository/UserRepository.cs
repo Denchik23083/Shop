@@ -49,5 +49,11 @@ namespace Shop.Data.UserRepository
             
             return user is null ? 0m : user.Money;
         }
+
+        public async Task DeleteUserAsync(ShopContext context, User user)
+        {
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
+        }
     }
 }

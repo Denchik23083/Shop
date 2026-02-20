@@ -10,7 +10,7 @@ namespace Shop.Services.OrderService
 
         Task<bool> DecreaseQuantityAsync(int productId, int orderId);
 
-        Task<bool> RemoveProductFromOrderAsync(int productId, int orderId);
+        Task<bool> DeleteProductFromOrderAsync(int productId, int orderId);
     
         Task<bool> PayAsync(int userId);
     }

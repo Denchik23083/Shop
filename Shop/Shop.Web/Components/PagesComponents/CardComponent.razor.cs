@@ -25,9 +25,9 @@ namespace Shop.Web.Components.PagesComponents
         private string Number =>
             Card?.CardNumber.Substring(Card.CardNumber.Length - 4, 4) ?? "";
 
-        private async Task Remove()
+        private async Task Delete()
         {
-            var result = await Service.RemoveCardAsync(Card.Id);
+            var result = await Service.DeleteCardAsync(Card.Id);
 
             _isSuccess = result;
             _messageText = result

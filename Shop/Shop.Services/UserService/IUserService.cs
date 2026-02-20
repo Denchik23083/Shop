@@ -1,5 +1,4 @@
-﻿using Shop.Contracts.Models;
-using Shop.Contracts.Utilities;
+﻿using Shop.Contracts.Utilities;
 using Shop.Db.Entities;
 
 namespace Shop.Services.UserService

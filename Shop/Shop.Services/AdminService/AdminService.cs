@@ -2,17 +2,20 @@
 using Shop.Data.AdminRepository;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.ProductRepository;
+using Shop.Data.UserRepository;
 using Shop.Db.Entities;
 
 namespace Shop.Services.AdminService
 {
     public class AdminService(IAdminRepository repository,
             IDbContextScopeFactory dbContextScopeFactory,
-            IProductRepository productRepository) : IAdminService
+            IProductRepository productRepository,
+            IUserRepository userRepository) : IAdminService
     {
         private readonly IAdminRepository _repository = repository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
         private readonly IProductRepository _productRepository = productRepository;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<Balance?> GetBalance()
         {
@@ -143,7 +146,7 @@ namespace Shop.Services.AdminService
             return true;
         }
 
-        public async Task<bool> RemoveProductAsync(int productId)
+        public async Task<bool> DeleteProductAsync(int productId)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
@@ -154,7 +157,23 @@ namespace Shop.Services.AdminService
                 return false;
             }
 
-            await _productRepository.RemoveProductAsync(context, product);
+            await _productRepository.DeleteProductAsync(context, product);
+
+            return true;
+        }
+
+        public async Task<bool> DeleteUserAsync(int userId)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var user = await _userRepository.GetUserAsync(context, userId);
+
+            if (user is null)
+            {
+                return false;
+            }
+
+            await _userRepository.DeleteUserAsync(context, user);
 
             return true;
         }

@@ -87,6 +87,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     await ctx.HttpContext.SignOutAsync();
                     return;
                 }
+                else
+                {
+                    ctx.ShouldRenew = true;
+                }
             }
         };
         options.LogoutPath = "/logout";

@@ -11,6 +11,6 @@ namespace Shop.Services.CardService
         
         Task<bool> SaveCardAsync(CardModel cardModel, int userId);
 
-        Task<bool> RemoveCardAsync(int cardId);
+        Task<bool> DeleteCardAsync(int cardId);
     }
 }

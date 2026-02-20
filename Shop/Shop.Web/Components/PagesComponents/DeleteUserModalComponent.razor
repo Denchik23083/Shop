@@ -1,0 +1,27 @@
+﻿@if (IsDeleteUserOpen && User is not null)
+{
+    <div class="modal-backdrop" @onclick="CloseDeleteUserModal">
+        <div class="modal-card" @onclick:stopPropagation="true">
+            <header class="modal-header">
+                <h2 class="modal-title">Удаление</h2>
+            </header>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    Вы точно хотите удалить пользователя: @User.Name?
+                </div>
+                <AuthorizeView Roles="God">
+                    <div class="modal-actions">
+                        <button class="pay-btn btn-manage"
+                                type="button"
+                                @onclick="() => DeleteUser(User.Id)">
+                            Удалить
+                        </button>
+                        <button class="btn modal-close-btn" type="button" @onclick="CloseDeleteUserModal">Отмена</button>
+                    </div>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+}
+
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
