@@ -1,7 +1,7 @@
 ﻿@page "/category"
 
 <div class="categories">
-    @foreach (var item in Lists)
+    @foreach (var item in Categories)
     {
         <a href="@($"/category/{item.Id}")" class="category-card" style="--img:url('@item.Image')">
             <div class="category-title">@item.Name</div>

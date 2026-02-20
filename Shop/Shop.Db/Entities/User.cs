@@ -1,4 +1,6 @@
-﻿namespace Shop.Db.Entities
+﻿using Shop.Contracts.Utilities;
+
+namespace Shop.Db.Entities
 {
     public class User
     {
@@ -12,7 +14,7 @@
 
         public decimal Money { get; set; }
 
-        public required string Role { get; set; }
+        public RoleType Role { get; set; }
 
         public Order? Order { get; set; }
 

@@ -1,13 +1,23 @@
 ﻿using Shop.Db;
 using Shop.Db.Entities;
 using Microsoft.EntityFrameworkCore;
+using Shop.Contracts.Utilities;
 
 namespace Shop.Data.UserRepository
 {
     public class UserRepository(IDbContextFactory<ShopContext> factory) : IUserRepository
     {
         private readonly IDbContextFactory<ShopContext> _factory = factory;
-        
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            await using var context = await _factory.CreateDbContextAsync();
+
+            return await context.Users
+                    .Where(_ => _.Role == RoleType.User)
+                    .ToListAsync();
+        }
+
         public async Task<User?> GetUserAsync(ShopContext context, int userId)
         {
             return await context.Users
@@ -31,21 +41,6 @@ namespace Shop.Data.UserRepository
             var user = await context.Users.FirstOrDefaultAsync(_ => _.Id == userId);
             
             return user is null ? 0m : user.Money;
-        }
-
-        public async Task<bool> IsEmailRepeatAsync(string email)
-        {
-            await using var context = await _factory.CreateDbContextAsync();
-
-            return await context.Users.AnyAsync(u => u.Email == email);
-        }
-
-        public async Task RegisterUserAsync(User user)
-        {
-            await using var context = await _factory.CreateDbContextAsync();
-
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
         }
     }
 }
