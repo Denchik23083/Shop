@@ -9,13 +9,20 @@ namespace Shop.Data.UserRepository
     {
         private readonly IDbContextFactory<ShopContext> _factory = factory;
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersByRoleAsync(RoleType role)
         {
             await using var context = await _factory.CreateDbContextAsync();
 
             return await context.Users
-                    .Where(_ => _.Role == RoleType.User)
+                    .Where(_ => _.Role == role)
                     .ToListAsync();
+        }
+
+        public async Task<User?> GetUserByRoleAsync(ShopContext context, int userId, RoleType role)
+        {
+            return await context.Users
+                    .FirstOrDefaultAsync(_ => _.Id == userId 
+                    && _.Role == role);
         }
 
         public async Task<User?> GetUserAsync(ShopContext context, int userId)

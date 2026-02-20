@@ -5,15 +5,15 @@ using Shop.Services.UserService;
 
 namespace Shop.Web.Components.Pages
 {
-    public partial class UsersPage
+    public partial class AdminsPage
     {
         [Inject] public IUserService Service { get; set; } = null!;
-        
-        private IEnumerable<User> Users = [];
+
+        private IEnumerable<User> Admins = [];
 
         protected override async Task OnInitializedAsync()
         {
-            Users = await Service.GetAllUsersByRoleAsync(RoleType.User);
+            Admins = await Service.GetAllUsersByRoleAsync(RoleType.Admin);
         }
     }
 }

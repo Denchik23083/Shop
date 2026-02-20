@@ -15,9 +15,10 @@ using Shop.Db;
 using Shop.Db.Entities;
 using Shop.Services.CardService;
 using Shop.Services.CategoryService;
-using Shop.Services.AdminService;
 using Shop.Services.OrderService;
 using Shop.Services.ProductService;
+using Shop.Services.GodService;
+using Shop.Services.AdminService;
 using Shop.Services.UserService;
 using Shop.Services.AuthService;
 using Shop.Web.Components;
@@ -28,20 +29,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IGodService, GodService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDbContextScopeFactory, DbContextScopeFactory>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

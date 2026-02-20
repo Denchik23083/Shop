@@ -62,12 +62,17 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    min-width: 0;
 }
 .badge {
     font-size: 14px;
     padding: 6px 10px;
     border-radius: 999px;
     background: rgba(0,0,0,.66);
+    display:inline-block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
 }
 .badge-muted {
     background: rgba(0,0,0,.04);
@@ -1036,7 +1041,7 @@
     color: #111;
 }
 .btn-delete {
-    background: rgba(255, 0, 0, .12);
+    background: rgba(255, 0, 0, .16);
     color: rgba(120,0,0,1);
 }
 .btn-buy {

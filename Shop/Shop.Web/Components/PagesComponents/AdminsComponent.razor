@@ -1,7 +1,7 @@
 ﻿<div class="products">
-    @foreach (var item in Users)
+    @foreach (var item in Admins)
     {
-        <article class="product-card" style="--img:url('img/users/users.jpg')">
+        <article class="product-card" style="--img:url('img/users/admins.jpg')">
             <div class="product-body">
                 <div class="product-top">
                     <h3 class="product-title">@item.Name</h3>
@@ -15,19 +15,10 @@
                 <div class="product-actions">
                     <button class="pay-btn btn-manage"
                             type="button"
-                            @onclick="() => UserToAdmin(item.Id)">
-                        Повысить
+                            @onclick="() => AdminToUser(item.Id)">
+                        Понизить до юзера
                     </button>
                 </div>
-            </AuthorizeView>
-            <AuthorizeView Roles="God,Admin">
-            <div class="product-actions">
-                <button class="pay-btn btn-delete"
-                        type="button"@*
-                        @onclick="OpenDeleteModal"*@>
-                    Удалить
-                </button>
-            </div>
             </AuthorizeView>
         </article>
     }

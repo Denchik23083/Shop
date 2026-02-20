@@ -3,9 +3,9 @@
         <span class="search-icon" aria-hidden="true"></span>
 
         <input class="search-input"
-                   placeholder="Поиск по названию..."
+                   placeholder="Поиск по имени или email..."
                    @bind-Value="_search"
                    @bind-Value:event="oninput" />
     </div>
 </div>
-<UsersComponent Users="FilteredUsers"/>
+<UsersComponent Users="FilteredUsers" />

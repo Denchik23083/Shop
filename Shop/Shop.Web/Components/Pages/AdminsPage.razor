@@ -1,0 +1,4 @@
+﻿@page "/admins"
+@attribute [Authorize(Roles = "God")]
+
+<FilterAdminsComponent Admins="Admins" />
