@@ -8,7 +8,7 @@ namespace Shop.Web.Components.PagesComponents
 {
     public partial class ProductsComponent
     {
-        [Parameter] public IEnumerable<Product> Lists { get; set; } = [];
+        [Parameter] public IEnumerable<Product> Products { get; set; } = [];
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
         

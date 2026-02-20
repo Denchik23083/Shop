@@ -8,11 +8,11 @@ namespace Shop.Web.Components.Pages
     {
         [Inject] public IProductService Service { get; set; } = null!;
         
-        private IEnumerable<Product> Lists = [];
+        private IEnumerable<Product> Products = [];
         
         protected override async Task OnInitializedAsync()
         {
-            Lists = await Service.GetAllProductsAsync();
+            Products = await Service.GetAllProductsAsync();
         }        
     }
 }

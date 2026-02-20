@@ -13,6 +13,11 @@ namespace Shop.Services.UserService
         private readonly IUserRepository _repository = repository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
         
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _repository.GetAllUsersAsync();
+        }
+
         public async Task<User?> GetUserAsync(int userId)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();

@@ -10,7 +10,7 @@ namespace Shop.Web.Components.PagesComponents
 {
     public partial class UserInfoComponent
     {
-        [Inject] public IUserService UserService { get; set; } = null!;
+        [Inject] public IUserService Service { get; set; } = null!;
 
         [Inject] public AuthenticationStateProvider AuthStateProvider { get; set; } = null!;
 
@@ -33,7 +33,7 @@ namespace Shop.Web.Components.PagesComponents
             if (!int.TryParse(userStrId, out var userId)) return;
 
             UserName = state.User.Identity?.Name;
-            UserMoney = await UserService.GetMoneyAsync(userId);
+            UserMoney = await Service.GetMoneyAsync(userId);
         }
 
         public async Task Logout()
