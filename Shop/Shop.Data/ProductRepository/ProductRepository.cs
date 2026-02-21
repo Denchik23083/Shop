@@ -22,7 +22,13 @@ namespace Shop.Data.ProductRepository
                 .FirstOrDefaultAsync(_ => _.Id == productId);
         }
 
-        public async Task RemoveProductAsync(ShopContext context, Product product)
+        public async Task AddProductAsync(ShopContext context, Product mappedProduct)
+        {
+            await context.Products.AddAsync(mappedProduct);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteProductAsync(ShopContext context, Product product)
         {
             context.Products.Remove(product);
             await context.SaveChangesAsync();

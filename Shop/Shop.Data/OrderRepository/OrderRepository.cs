@@ -33,13 +33,13 @@ namespace Shop.Data.OrderRepository
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveOrderAsync(ShopContext context, Order order)
+        public async Task DeleteOrderAsync(ShopContext context, Order order)
         {
             context.Orders.Remove(order);
             await context.SaveChangesAsync();
         }
 
-        public async Task RemoveProductFromOrderAsync(ShopContext context, OrderProduct orderProduct)
+        public async Task DeleteProductFromOrderAsync(ShopContext context, OrderProduct orderProduct)
         {
             context.OrderProducts.Remove(orderProduct);
             await context.SaveChangesAsync();

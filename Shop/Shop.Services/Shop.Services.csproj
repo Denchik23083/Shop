@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Shop.Contracts\Shop.Contracts.csproj" />
     <ProjectReference Include="..\Shop.Data\Shop.Data.csproj" />
     <ProjectReference Include="..\Shop.Db\Shop.Db.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

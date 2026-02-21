@@ -2,23 +2,68 @@
 using Shop.Data.AdminRepository;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.ProductRepository;
+using Shop.Data.UserRepository;
 using Shop.Db.Entities;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Components.Forms;
+using AutoMapper;
 
 namespace Shop.Services.AdminService
 {
     public class AdminService(IAdminRepository repository,
             IDbContextScopeFactory dbContextScopeFactory,
-            IProductRepository productRepository) : IAdminService
+            IProductRepository productRepository,
+            IUserRepository userRepository,
+            IWebHostEnvironment webHost,
+            IMapper mapper) : IAdminService
     {
         private readonly IAdminRepository _repository = repository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
         private readonly IProductRepository _productRepository = productRepository;
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IWebHostEnvironment _webHost = webHost;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<Balance?> GetBalance()
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
             return await _repository.GetBalance(context);
+        }
+
+        public async Task<string?> SaveFileAsync(IBrowserFile selectedFile)
+        {
+            var trustedFileName = Path.GetRandomFileName() + Path.GetExtension(selectedFile.Name);
+
+            var path = Path.Combine(_webHost.WebRootPath, "img", "products", trustedFileName);
+
+            var directory = Path.GetDirectoryName(path);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory!);
+            }
+
+            await using var stream = new FileStream(path, FileMode.Create);
+            await selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10).CopyToAsync(stream);
+
+            return Path.Combine("img", "products", trustedFileName).Replace("\\", "/");
+        }
+
+        public async Task<bool> AddProductAsync(ProductModel productModel)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var mappedProduct = _mapper.Map<Product>(productModel);
+
+            if (mappedProduct is null || mappedProduct.PurchasePrice >= mappedProduct.Price)
+            {
+                return false;
+            }
+
+            await _productRepository.AddProductAsync(context, mappedProduct);
+
+            return true;
         }
 
         public async Task<bool> AddQuantityAsync(int productId, int buyQuantity, int dayExpired)
@@ -110,7 +155,7 @@ namespace Shop.Services.AdminService
 
             var product = await _productRepository.GetProductAsync(context, productId);
 
-            if (product is null)
+            if (product is null || productEditModel.PurchasePrice >= productEditModel.Price)
             {
                 return false;
             }
@@ -143,7 +188,7 @@ namespace Shop.Services.AdminService
             return true;
         }
 
-        public async Task<bool> RemoveProductAsync(int productId)
+        public async Task<bool> DeleteProductAsync(int productId)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
@@ -154,9 +199,46 @@ namespace Shop.Services.AdminService
                 return false;
             }
 
-            await _productRepository.RemoveProductAsync(context, product);
+            await _productRepository.DeleteProductAsync(context, product);
 
             return true;
+        }
+
+        public async Task<bool> DeleteUserAsync(int userId)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var user = await _userRepository.GetUserAsync(context, userId);
+
+            if (user is null)
+            {
+                return false;
+            }
+
+            await _userRepository.DeleteUserAsync(context, user);
+
+            return true;
+        }
+
+        public Task DeleteFileAsync(string? path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return Task.CompletedTask;
+
+            try
+            {
+                var fullPath = Path.Combine(_webHost.WebRootPath, path);
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+
+                }
+
+                return Task.CompletedTask;
+            }
+            catch
+            {
+                return Task.CompletedTask;
+            }
         }
     }
 }

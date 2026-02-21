@@ -11,8 +11,8 @@ namespace Shop.Data.OrderRepository
 
         Task AddOrderAsync(ShopContext context, Order order);
 
-        Task RemoveOrderAsync(ShopContext context, Order order);
+        Task DeleteOrderAsync(ShopContext context, Order order);
 
-        Task RemoveProductFromOrderAsync(ShopContext context, OrderProduct orderProduct);
+        Task DeleteProductFromOrderAsync(ShopContext context, OrderProduct orderProduct);
     }
 }

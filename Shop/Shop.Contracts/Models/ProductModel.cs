@@ -7,6 +7,8 @@ namespace Shop.Contracts.Models
         [Required]
         public string Name { get; set; } = string.Empty;
 
+        public string Image { get; set; } = string.Empty;
+
         [Required]
         public decimal PurchasePrice { get; set; }
 
@@ -14,6 +16,9 @@ namespace Shop.Contracts.Models
         public decimal Price { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+        public DateTime Expiration { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; } = 1;
     }
 }

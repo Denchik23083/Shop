@@ -77,8 +77,8 @@ else
 
                                         <td class="col-total">
                                             <span class="money money-strong">@(item.UnitPrice* item.Quantity) грн</span>
-                                            <button class="remove-link" type="button"
-                                                    @onclick="() => RemoveProductFromOrderAsync(item.Product.Id)">Удалить </button>
+                                            <button class="delete-link" type="button"
+                                                    @onclick="() => DeleteProductFromOrderAsync(item.Product.Id)">Удалить </button>
                                         </td>
                                     </tr>
                                 }

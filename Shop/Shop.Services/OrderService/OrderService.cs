@@ -67,7 +67,7 @@ namespace Shop.Services.OrderService
             return true;
         }
 
-        public async Task<bool> RemoveProductFromOrderAsync(int productId, int orderId)
+        public async Task<bool> DeleteProductFromOrderAsync(int productId, int orderId)
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
@@ -78,7 +78,7 @@ namespace Shop.Services.OrderService
                 return false;
             }
 
-            await _repository.RemoveProductFromOrderAsync(context, orderProduct);
+            await _repository.DeleteProductFromOrderAsync(context, orderProduct);
 
             return true;
         }
@@ -140,7 +140,7 @@ namespace Shop.Services.OrderService
                 }
 
                 //Удаляем заказ
-                await _repository.RemoveOrderAsync(context, user.Order);
+                await _repository.DeleteOrderAsync(context, user.Order);
                 await _dbContextScopeFactory.SaveChangesAsync(context);
 
                 await transaction.CommitAsync();

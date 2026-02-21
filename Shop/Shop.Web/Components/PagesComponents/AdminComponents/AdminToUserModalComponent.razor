@@ -1,0 +1,27 @@
+﻿@if (IsAdminToUserOpen && Admin is not null)
+{
+    <div class="modal-backdrop" @onclick="CloseAdminToUserModal">
+        <div class="modal-card" @onclick:stopPropagation="true">
+            <header class="modal-header">
+                <h2 class="modal-title">Понижение</h2>
+            </header>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    Вы точно хотите понизить @Admin.Name до пользователя?
+                </div>
+                <AuthorizeView Roles="God">
+                    <div class="modal-actions">
+                        <button class="pay-btn btn-manage"
+                                type="button"
+                                @onclick="() => AdminToUser(Admin.Id)">
+                            Понизить
+                        </button>
+                        <button class="btn modal-close-btn" type="button" @onclick="CloseAdminToUserModal">Отмена</button>
+                    </div>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+}
+
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />

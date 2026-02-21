@@ -53,6 +53,8 @@ namespace Shop.Services.CardService
 
         public async Task<bool> SaveCardAsync(CardModel cardModel, int userId)
         {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
             var mappedCard = _mapper.Map<Card>(cardModel);
 
             if (mappedCard is null)
@@ -60,23 +62,30 @@ namespace Shop.Services.CardService
                 return false;
             }
 
-            mappedCard.UserId = userId;
+            var user = await _userRepository.GetUserAsync(context, userId);
+
+            if (user is null)
+            {
+                return false;
+            }
+
+            mappedCard.UserId = user.Id;
 
             await _repository.SaveCardAsync(mappedCard);
             
             return true;
         }
 
-        public async Task<bool> RemoveCardAsync(int cardId)
+        public async Task<bool> DeleteCardAsync(int cardId)
         {
-            var cardToRemove = await _repository.GetCardAsync(cardId);
+            var cardToDelete = await _repository.GetCardAsync(cardId);
 
-            if (cardToRemove is null)
+            if (cardToDelete is null)
             {
                 return false;
             }
 
-            await _repository.RemoveCardAsync(cardToRemove);
+            await _repository.DeleteCardAsync(cardToDelete);
 
             return true;
         }

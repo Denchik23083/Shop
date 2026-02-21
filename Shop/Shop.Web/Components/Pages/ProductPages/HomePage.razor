@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<AuthorizeView Roles="God,Admin"> 
+    <div class="products-toolbar">
+        <button class="admin-add-btn" type="button" @onclick="OpenAddProductModal">
+            <span class="admin-add-plus" aria-hidden="true"></span>
+            Добавить
+        </button>
+    </div>
+</AuthorizeView>
+
+<FilterProductsComponent Products="Products" />
+<AddProductModelComponent IsAddProductOpen="_isAddProductOpen" /> 

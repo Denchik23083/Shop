@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Shop.Contracts.Models;
-using Shop.Contracts.Utilities;
+﻿using Shop.Contracts.Utilities;
 using Shop.Data.DbContextScopeFactory;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
@@ -13,9 +11,9 @@ namespace Shop.Services.UserService
         private readonly IUserRepository _repository = repository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
         
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersByRoleAsync(RoleType role)
         {
-            return await _repository.GetAllUsersAsync();
+            return await _repository.GetAllUsersByRoleAsync(role);
         }
 
         public async Task<User?> GetUserAsync(int userId)

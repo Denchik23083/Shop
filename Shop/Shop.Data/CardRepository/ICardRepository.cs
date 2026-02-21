@@ -10,6 +10,6 @@ namespace Shop.Data.CardRepository
 
         Task SaveCardAsync(Card mappedCard);
         
-        Task RemoveCardAsync(Card cardToRemove);
+        Task DeleteCardAsync(Card cardToDelete);
     }
 }

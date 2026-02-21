@@ -1,0 +1,27 @@
+﻿<div class="products">
+    @foreach (var item in Admins)
+    {
+        <article class="product-card" style="--img:url('img/users/admins.jpg')">
+            <div class="product-body">
+                <div class="product-top">
+                    <h3 class="product-title">@item.Name</h3>
+                    <div class="product-price">@item.Money грн</div>
+                </div>
+                <div class="product-meta">
+                    <span class="badge">@item.Email</span>
+                </div>
+            </div>
+            <AuthorizeView Roles="God">
+                <div class="product-actions">
+                    <button class="pay-btn btn-manage"
+                            type="button"
+                            @onclick="() => OpenUserToAdminModal(item)">
+                        Понизить
+                    </button>
+                </div>
+            </AuthorizeView>
+        </article>
+    }
+</div>
+
+<AdminToUserModalComponent IsAdminToUserOpen="_isAdminToUserOpen" Admin="_admin" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Shop.Contracts.Utilities;
 using Shop.Db.Entities;
 using Shop.Services.UserService;
 
@@ -12,7 +13,7 @@ namespace Shop.Web.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Users = await Service.GetAllUsersAsync();
+            Users = await Service.GetAllUsersByRoleAsync(RoleType.User);
         }
     }
 }

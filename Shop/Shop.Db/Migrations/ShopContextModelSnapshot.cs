@@ -240,7 +240,9 @@ namespace Shop.Db.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Count")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime>("Expiration")
                         .HasColumnType("datetime2");

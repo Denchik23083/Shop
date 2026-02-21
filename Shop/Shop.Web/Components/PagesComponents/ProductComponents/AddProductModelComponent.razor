@@ -1,0 +1,98 @@
+﻿@if (IsAddProductOpen)
+{
+    <div class="modal-backdrop" @onclick="CloseAddProductModal">
+        <div class="modal-card modal-wide" @onclick:stopPropagation="true">
+
+            <header class="modal-header">
+                <h2 class="modal-title">Добавление</h2>
+            </header>
+
+            <div class="modal-body">
+                <EditForm class="form-grid" Model="@ProductModel" OnValidSubmit="@SaveAdd">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <div class="field">
+                        <label class="label">
+                            <span class="auth-label">Имя</span>
+                            <InputText class="modal-input"
+                                       type="text"
+                                       autocomplete="name"
+                                       id="name"
+                                       @bind-Value="ProductModel.Name" />
+                        </label>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="category">Категория</label>
+                        <div class="select-wrap">
+                            <InputSelect id="categoryId" @bind-Value="ProductModel.CategoryId" class="select">
+                                @foreach (var category in Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </InputSelect>
+                            <span class="select-arrow"></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">
+                            <span class="auth-label">Цена закупки</span>
+                            <InputNumber class="modal-input"
+                                         step="0.10"
+                                         min="0"
+                                         id="purchaseprice"
+                                         @bind-Value="ProductModel.PurchasePrice" />
+                        </label>
+                    </div>
+                    <div class="field">
+                        <label class="label">
+                            <span class="auth-label">Цена продажи</span>
+                            <InputNumber class="modal-input"
+                                         step="0.10"
+                                         min="0"
+                                         id="price"
+                                         @bind-Value="ProductModel.Price" />
+                        </label>
+                    </div>
+                    <div class="field">
+                        <label class="label">Фото товара</label>
+
+                        <div class="file-box">
+                            <InputFile class="file-input" OnChange="LoadFile" />
+                            <div class="file-ui">
+                                <div class="file-title">Перетащи файл сюда или выбери вручную</div>
+                                <div class="file-hint">PNG / JPG · до 5–10 MB</div>
+                            </div>
+                        </div>
+
+                        @if (_selectedFile is not null && !string.IsNullOrWhiteSpace(_selectedFile.Name))
+                        {
+                            <div class="file-selected">
+                                Выбрано: <b>@_selectedFile.Name</b>
+                                <button class="file-clear" type="button" @onclick="ClearSelectedImage">Очистить</button>
+                            </div>
+                        }
+                    </div>
+                    <div class="field">
+                        <label class="label">
+                            <span class="auth-label">
+                                Срок годности товаров в днях
+                            </span>
+
+                            <input class="modal-input"
+                                   type="number"
+                                   min="1"
+                                   step="1"
+                                   @bind="_dayExpired" />
+                        </label>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="pay-btn btn-save" type="submit">Сохранить</button>
+                        <button class="btn modal-close-btn" type="button" @onclick="CloseAddProductModal">Отмена</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+<ShowMessageComponent IsShowMessage="_isShowMessage" IsSuccess="_isSuccess" MessageText="@_messageText" />
