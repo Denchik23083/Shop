@@ -1,0 +1,41 @@
+﻿@if (IsAddProductOpen)
+{
+    <div class="modal-backdrop" @onclick="CloseAddProductModal">
+        <div class="modal-card modal-wide" @onclick:stopPropagation="true">
+
+            <header class="modal-header">
+                <h2 class="modal-title">Добавление</h2>
+            </header>
+
+            <div class="modal-body">
+
+                <EditForm Model="@ProductModel" OnValidSubmit="SaveAdd">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="field">
+                        <label class="label">Фото товара</label>
+
+                        <div class="file-box">
+                            <InputFile class="file-input" OnChange="LoadFile" accept="image/*" />
+                            <div class="file-ui">
+                                <div class="file-title">Перетащи файл сюда или выбери вручную</div>
+                                <div class="file-hint">PNG / JPG · до 5–10 MB</div>
+                            </div>
+                        </div>
+
+                        @if (_selectedFile is not null && !string.IsNullOrWhiteSpace(_selectedFile.Name))
+                        {
+                            <div class="file-selected">
+                                Выбрано: <b>@_selectedFile.Name</b>
+                                <button class="file-clear" type="button" @onclick="ClearSelectedImage">Очистить</button>
+                            </div>
+                        }
+                    </div>
+
+                    …кнопки Сохранить/Отмена у тебя уже есть…
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}

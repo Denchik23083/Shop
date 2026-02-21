@@ -9,5 +9,6 @@ namespace Shop.Services.ProductService
         Task<Product?> GetProductAsync(int productId);
 
         Task<bool> AddProductToOrderAsync(int productId, int userId);
+
     }
 }

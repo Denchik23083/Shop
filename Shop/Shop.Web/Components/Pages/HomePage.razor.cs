@@ -9,10 +9,14 @@ namespace Shop.Web.Components.Pages
         [Inject] public IProductService Service { get; set; } = null!;
         
         private IEnumerable<Product> Products = [];
-        
+
+        private bool _isAddProductOpen;
+
         protected override async Task OnInitializedAsync()
         {
             Products = await Service.GetAllProductsAsync();
-        }        
+        }
+
+        private void OpenAddProductModal() => _isAddProductOpen = true;
     }
 }

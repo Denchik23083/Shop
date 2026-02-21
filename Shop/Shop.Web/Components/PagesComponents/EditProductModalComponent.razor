@@ -6,7 +6,7 @@
                 <h2 class="modal-title">Редактирование</h2>
             </header>
             <div class="modal-body">
-                <EditForm class="form-grid" Model="ProductEditModel" OnValidSubmit="@SaveEditAsync">
+                <EditForm class="form-grid" Model="ProductEditModel" OnValidSubmit="@SaveEdit">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <div class="field">

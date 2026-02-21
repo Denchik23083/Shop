@@ -4,24 +4,47 @@ using Shop.Data.DbContextScopeFactory;
 using Shop.Data.ProductRepository;
 using Shop.Data.UserRepository;
 using Shop.Db.Entities;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Shop.Services.AdminService
 {
     public class AdminService(IAdminRepository repository,
             IDbContextScopeFactory dbContextScopeFactory,
             IProductRepository productRepository,
-            IUserRepository userRepository) : IAdminService
+            IUserRepository userRepository,
+            IWebHostEnvironment webHost) : IAdminService
     {
         private readonly IAdminRepository _repository = repository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
         private readonly IProductRepository _productRepository = productRepository;
         private readonly IUserRepository _userRepository = userRepository;
+        private readonly IWebHostEnvironment _webHost = webHost;
 
         public async Task<Balance?> GetBalance()
         {
             await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
 
             return await _repository.GetBalance(context);
+        }
+
+        public async Task<string?> SaveFileAsync(IBrowserFile selectedFile)
+        {
+            var trustedFileName = Path.GetRandomFileName() + Path.GetExtension(selectedFile.Name);
+
+            var path = Path.Combine(_webHost.WebRootPath, "img", "products", trustedFileName);
+
+            var directory = Path.GetDirectoryName(path);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory!);
+            }
+
+            await using var stream = new FileStream(path, FileMode.Create);
+            await selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10).CopyToAsync(stream);
+
+            return Path.Combine("img", "products", trustedFileName).Replace("\\", "/");
         }
 
         public async Task<bool> AddQuantityAsync(int productId, int buyQuantity, int dayExpired)

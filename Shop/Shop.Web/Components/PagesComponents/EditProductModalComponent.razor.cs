@@ -43,7 +43,7 @@ namespace Shop.Web.Components.PagesComponents
         
         private void CloseEditModal() => IsEditOpen = false;
 
-        private async Task SaveEditAsync()
+        private async Task SaveEdit()
         {
             var result = await Service.UpdateProductAsync(ProductEditModel, Product.Id);
 

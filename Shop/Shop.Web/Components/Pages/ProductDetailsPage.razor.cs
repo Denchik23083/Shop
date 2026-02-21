@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Shop.Contracts.Models;
 using Shop.Db.Entities;
 using Shop.Services.ProductService;
 
