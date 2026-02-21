@@ -1,35 +1,35 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shop.Db.Entities;
-using Shop.Services.GodService;
+using Shop.Services.AdminService;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.UserComponents
 {
-    public partial class UserToAdminModalComponent
+    public partial class DeleteUserModalComponent
     {
         [Parameter] public required User User { get; set; }
 
-        [Parameter] public bool IsUserToAdminOpen { get; set; }
+        [Parameter] public bool IsDeleteUserOpen { get; set; }
 
         [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
-        [Inject] public IGodService Service { get; set; } = null!;
+        [Inject] public IAdminService Service { get; set; } = null!;
 
         private bool _isShowMessage;
         private bool _isSuccess;
         private string _messageText = "";
 
-        private void CloseUserToAdminModal() => IsUserToAdminOpen = false;
+        private void CloseDeleteUserModal() => IsDeleteUserOpen = false;
 
-        private async Task UserToAdmin(int userId)
+        private async Task DeleteUser(int userId)
         {
-            var result = await Service.UserToAdminAsync(userId);
+            var result = await Service.DeleteUserAsync(userId);
 
             await Task.Delay(500);
 
             _isSuccess = result;
             _messageText = result
-                ? "Пользователь повышен до админа"
-                : "Не удалось повысить пользователя";
+                ? "Пользователь удален"
+                : "Не удалось удалить пользователя";
 
             _isShowMessage = true;
             StateHasChanged();

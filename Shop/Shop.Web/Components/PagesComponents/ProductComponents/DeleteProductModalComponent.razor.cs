@@ -2,7 +2,7 @@
 using Shop.Db.Entities;
 using Shop.Services.AdminService;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.ProductComponents
 {
     public partial class DeleteProductModalComponent
     {

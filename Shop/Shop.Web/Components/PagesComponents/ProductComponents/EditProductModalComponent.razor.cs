@@ -4,7 +4,7 @@ using Shop.Db.Entities;
 using Shop.Services.AdminService;
 using Shop.Services.CategoryService;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.ProductComponents
 {
     public partial class EditProductModalComponent
     {

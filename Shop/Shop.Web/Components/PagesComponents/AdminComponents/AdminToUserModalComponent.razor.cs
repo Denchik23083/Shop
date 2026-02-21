@@ -2,7 +2,7 @@
 using Shop.Db.Entities;
 using Shop.Services.GodService;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.AdminComponents
 {
     public partial class AdminToUserModalComponent
     {

@@ -4,7 +4,7 @@ using Shop.Contracts.Models;
 using Shop.Services.CardService;
 using System.Security.Claims;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.CardComponents
 {
     public partial class AddCardComponent
     {

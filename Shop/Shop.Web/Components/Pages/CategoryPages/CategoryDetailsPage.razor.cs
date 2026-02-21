@@ -2,7 +2,7 @@
 using Shop.Db.Entities;
 using Shop.Services.CategoryService;
 
-namespace Shop.Web.Components.Pages
+namespace Shop.Web.Components.Pages.CategoryPages
 {
     public partial class CategoryDetailsPage
     {

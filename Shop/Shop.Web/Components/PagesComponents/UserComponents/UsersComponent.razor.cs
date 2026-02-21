@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shop.Db.Entities;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.UserComponents
 {
     public partial class UsersComponent
     {

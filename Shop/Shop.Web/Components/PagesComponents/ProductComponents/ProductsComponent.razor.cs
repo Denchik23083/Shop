@@ -4,7 +4,7 @@ using Shop.Db.Entities;
 using Shop.Services.ProductService;
 using System.Security.Claims;
 
-namespace Shop.Web.Components.PagesComponents
+namespace Shop.Web.Components.PagesComponents.ProductComponents
 {
     public partial class ProductsComponent
     {

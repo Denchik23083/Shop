@@ -3,7 +3,7 @@ using Shop.Contracts.Models;
 using Shop.Db.Entities;
 using Shop.Services.ProductService;
 
-namespace Shop.Web.Components.Pages
+namespace Shop.Web.Components.Pages.ProductPages
 {
     public partial class ProductDetailsPage
     {
