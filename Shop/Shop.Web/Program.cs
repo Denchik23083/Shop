@@ -170,6 +170,8 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 
+app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

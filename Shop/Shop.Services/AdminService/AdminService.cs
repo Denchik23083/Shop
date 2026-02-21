@@ -6,6 +6,7 @@ using Shop.Data.UserRepository;
 using Shop.Db.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Components.Forms;
+using AutoMapper;
 
 namespace Shop.Services.AdminService
 {
@@ -13,13 +14,15 @@ namespace Shop.Services.AdminService
             IDbContextScopeFactory dbContextScopeFactory,
             IProductRepository productRepository,
             IUserRepository userRepository,
-            IWebHostEnvironment webHost) : IAdminService
+            IWebHostEnvironment webHost,
+            IMapper mapper) : IAdminService
     {
         private readonly IAdminRepository _repository = repository;
         private readonly IDbContextScopeFactory _dbContextScopeFactory = dbContextScopeFactory;
         private readonly IProductRepository _productRepository = productRepository;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IWebHostEnvironment _webHost = webHost;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<Balance?> GetBalance()
         {
@@ -45,6 +48,22 @@ namespace Shop.Services.AdminService
             await selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10).CopyToAsync(stream);
 
             return Path.Combine("img", "products", trustedFileName).Replace("\\", "/");
+        }
+
+        public async Task<bool> AddProductAsync(ProductModel productModel)
+        {
+            await using var context = await _dbContextScopeFactory.GetSingleDbContextAsync();
+
+            var mappedProduct = _mapper.Map<Product>(productModel);
+
+            if (mappedProduct is null || mappedProduct.PurchasePrice >= mappedProduct.Price)
+            {
+                return false;
+            }
+
+            await _productRepository.AddProductAsync(context, mappedProduct);
+
+            return true;
         }
 
         public async Task<bool> AddQuantityAsync(int productId, int buyQuantity, int dayExpired)
@@ -136,7 +155,7 @@ namespace Shop.Services.AdminService
 
             var product = await _productRepository.GetProductAsync(context, productId);
 
-            if (product is null)
+            if (product is null || productEditModel.PurchasePrice >= productEditModel.Price)
             {
                 return false;
             }
@@ -199,6 +218,27 @@ namespace Shop.Services.AdminService
             await _userRepository.DeleteUserAsync(context, user);
 
             return true;
+        }
+
+        public Task DeleteFileAsync(string? path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return Task.CompletedTask;
+
+            try
+            {
+                var fullPath = Path.Combine(_webHost.WebRootPath, path);
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+
+                }
+
+                return Task.CompletedTask;
+            }
+            catch
+            {
+                return Task.CompletedTask;
+            }
         }
     }
 }

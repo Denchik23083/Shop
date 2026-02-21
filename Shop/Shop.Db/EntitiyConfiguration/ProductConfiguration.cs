@@ -15,6 +15,7 @@ namespace Shop.Db.EntitiyConfiguration
             builder.Property(_ => _.PurchasePrice).HasPrecision(18, 2);
             builder.Property(_ => _.Price).HasPrecision(18, 2);
             builder.Property(_ => _.Expiration);
+            builder.Property(_ => _.Count).HasDefaultValue(0).IsRequired();
 
             builder.HasOne(_ => _.Category)
                 .WithMany(_ => _.Products)

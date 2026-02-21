@@ -10,6 +10,8 @@ namespace Shop.Services.AdminService
 
         Task<string?> SaveFileAsync(IBrowserFile selectedFile);
 
+        Task<bool> AddProductAsync(ProductModel productModel);
+
         Task<bool> AddQuantityAsync(int productId, int buyQuantity, int dayExpired);
 
         Task<bool> PurchaseQuantityAsync(int productId, int purchaseQuantity);
@@ -21,5 +23,7 @@ namespace Shop.Services.AdminService
         Task<bool> DeleteProductAsync(int productId);
 
         Task<bool> DeleteUserAsync(int userId);
+        
+        Task DeleteFileAsync(string? path);
     }
 }

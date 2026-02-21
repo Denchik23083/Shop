@@ -24,6 +24,11 @@ namespace Shop.Web.Components.PagesComponents
         {
             var result = await Service.DeleteProductAsync(Product.Id);
 
+            if (result)
+            {
+                await Service.DeleteFileAsync(Product.Image);
+            }
+
             await Task.Delay(500);
 
             _isSuccess = result;
