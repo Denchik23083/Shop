@@ -114,8 +114,14 @@ builder.Services.AddScoped(http =>
 
 builder.Services.AddDbContextFactory<ShopContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-    options.UseSqlServer(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connectionString, sqlOptions => 
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 10,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null);
+    });
 });
 
 builder.Services.AddAutoMapper(au =>
@@ -158,13 +164,18 @@ app.MapPost("/logout", async (HttpContext http) =>
     return Results.Ok();
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ShopContext>();
+    context.Database.Migrate();
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
